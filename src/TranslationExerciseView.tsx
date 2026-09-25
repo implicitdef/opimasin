@@ -310,7 +310,6 @@ function TranslationExerciseView({
 
   return (
     <div className="flex flex-col gap-8">
-      {header}
       <SettingsBox storageKey="opimasin-translation-settings-open" stacked>
         <label className="flex items-center gap-2 text-sm text-gray-700">
           <input
@@ -331,6 +330,7 @@ function TranslationExerciseView({
           Hide the theme
         </label>
       </SettingsBox>
+      {header}
       {sentencePairs && (
         <p className="text-xs text-gray-500 -mb-4">This is a long text</p>
       )}
