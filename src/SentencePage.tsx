@@ -1,7 +1,7 @@
 import { Link, useParams } from "@tanstack/react-router";
 import { RefreshCcw } from "lucide-react";
-import { useApiKey } from "./CredentialsContext";
 import BackToListLink from "./BackToListLink";
+import { useApiKey } from "./CredentialsContext";
 import { isExactMatch } from "./estonianDiff";
 import { useFromTheme } from "./FromThemeContext";
 import GenerateAnotherButton from "./GenerateAnotherButton";
@@ -210,7 +210,7 @@ function SentencePage() {
                   needs an Anthropic API key.
                 </p>
               )}
-              <div className="flex flex-row justify-between gap-3">
+              <div className="flex flex-row items-center justify-between gap-3 border border-gray-500 rounded-md px-4 py-3">
                 <ThemeLabel
                   theme={item.theme}
                   level={item.level}

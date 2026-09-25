@@ -20,7 +20,7 @@ function ThemeLabel({
   const formattedLevel = formatLevel(level);
   return (
     <div>
-      <span className="text-gray-500">Theme : </span>
+      <span className="text-gray-500">Theme or word : </span>
       <>
         {hideTheme ? (
           <span className="font-mono text-gray-400 italic">&lt;hidden&gt;</span>
