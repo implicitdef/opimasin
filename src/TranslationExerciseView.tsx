@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import MaskedSentenceInputs from "./MaskedWordInputs";
 import {
   joinTokensWithWordValues,
   tokenizeSentence,
   wordTokenTexts,
 } from "./maskedHint";
+import MaskedSentenceInputs from "./MaskedWordInputs";
 import { solvedSentences, type SentencePair } from "./sentenceSplit";
 import SettingsBox from "./SettingsBox";
 import type { SentencePracticeAttempt } from "./types";
@@ -288,6 +288,34 @@ function LongTextExercise({
   );
 }
 
+function SettingCheckbox({
+  checked,
+  onChange,
+  label,
+  description,
+}: {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label: string;
+  description: string;
+}) {
+  return (
+    <div className="flex flex-col gap-0.5">
+      <label className="flex items-center gap-2 text-sm text-gray-700">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="h-4 w-4 accent-blue-700"
+        />
+        {label}
+      </label>
+      {/* Indented to line up with the label text, past the checkbox. */}
+      <p className="pl-6 text-xs italic text-gray-500">{description}</p>
+    </div>
+  );
+}
+
 function TranslationExerciseView({
   header,
   englishToTranslate,
@@ -311,24 +339,18 @@ function TranslationExerciseView({
   return (
     <div className="flex flex-col gap-8">
       <SettingsBox storageKey="opimasin-translation-settings-open" stacked>
-        <label className="flex items-center gap-2 text-sm text-gray-700">
-          <input
-            type="checkbox"
-            checked={revealEndings}
-            onChange={(e) => setRevealEndings(e.target.checked)}
-            className="h-4 w-4 accent-blue-700"
-          />
-          Also reveal the word endings (for words of 5+ letters)
-        </label>
-        <label className="flex items-center gap-2 text-sm text-gray-700">
-          <input
-            type="checkbox"
-            checked={hideTheme}
-            onChange={(e) => onHideThemeChange(e.target.checked)}
-            className="h-4 w-4 accent-blue-700"
-          />
-          Hide the theme
-        </label>
+        <SettingCheckbox
+          checked={revealEndings}
+          onChange={setRevealEndings}
+          label="Also reveal the word endings (for words of 5+ letters)"
+          description="Makes it much easier and faster. But you don't practice the choice of the correct ending for genitive, partitive, etc."
+        />
+        <SettingCheckbox
+          checked={hideTheme}
+          onChange={onHideThemeChange}
+          label="Hide the theme/word that was used to generate the sentece"
+          description="Can be useful to force you to recall the word used in the sentence"
+        />
       </SettingsBox>
       {header}
       {sentencePairs && (
