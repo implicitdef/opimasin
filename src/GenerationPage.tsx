@@ -126,7 +126,7 @@ function GenerationPage() {
           </>
         }
       >
-        Generate one (or more) sentence(s) for you to translate.
+        Generate one (or 3) sentence(s) for you to translate.
       </YellowDescription>
 
       <SettingsBox
