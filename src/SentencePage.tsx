@@ -4,6 +4,7 @@ import BackToListLink from "./BackToListLink";
 import { useApiKey } from "./CredentialsContext";
 import { isExactMatch } from "./estonianDiff";
 import { useFromTheme } from "./FromThemeContext";
+import ExerciseCard from "./ExerciseCard";
 import GenerateAnotherButton from "./GenerateAnotherButton";
 import PageMain from "./PageMain";
 import { longTextPairs, solvedSentences } from "./sentenceSplit";
@@ -25,13 +26,14 @@ function GeneratingDetailView({
   hideTheme: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-3">
-      <ThemeLabel theme={theme} level={level} hideTheme={hideTheme} />
+    <ExerciseCard
+      heading={<ThemeLabel theme={theme} level={level} hideTheme={hideTheme} />}
+    >
       <div className="flex items-center gap-2 text-gray-500">
         <RefreshCcw size={18} className="animate-spin" />
         <p className="text-sm">Generating sentence…</p>
       </div>
-    </div>
+    </ExerciseCard>
   );
 }
 
@@ -53,8 +55,9 @@ function GenerationErrorDetailView({
   disabled: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-3">
-      <ThemeLabel theme={theme} level={level} hideTheme={hideTheme} />
+    <ExerciseCard
+      heading={<ThemeLabel theme={theme} level={level} hideTheme={hideTheme} />}
+    >
       <div className="bg-red-50 border border-red-200 rounded-lg px-5 py-4 flex flex-col gap-2">
         <p className="text-red-700 font-semibold text-sm">
           Couldn't generate a sentence for this theme.
@@ -69,7 +72,7 @@ function GenerationErrorDetailView({
           {spinning ? "Retrying…" : "Retry"}
         </button>
       </div>
-    </div>
+    </ExerciseCard>
   );
 }
 
@@ -202,35 +205,36 @@ function SentencePage() {
           key={item.id}
           hideTheme={hideTheme}
           onHideThemeChange={setHideTheme}
+          notice={
+            isDemo &&
+            !apiKey && (
+              <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-1.5 w-fit">
+                This is a pregenerated example. Generating your own sentences
+                requires an Anthropic API key.
+              </p>
+            )
+          }
           header={
-            <div className="flex flex-col gap-3">
-              {isDemo && !apiKey && (
-                <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-1.5 w-fit">
-                  This is a pregenerated example. Generating your own sentences
-                  requires an Anthropic API key.
-                </p>
-              )}
-              <div className="flex flex-row items-center justify-between gap-3 border border-gray-500 rounded-md px-4 py-3">
-                <ThemeLabel
-                  theme={item.theme}
-                  level={item.level}
-                  hideTheme={hideTheme}
-                />
-                <div className="flex flex-col gap-2 items-end">
-                  {!item.manual && (
-                    <GenerateAnotherButton
-                      onClick={() => generateAnother(item)}
-                      spinning={generatingSource === "another"}
-                      disabled={isGenerating}
-                    />
-                  )}
-                  <Link
-                    to="/generate"
-                    className="text-xs text-gray-500 hover:text-blue-700 underline transition-colors "
-                  >
-                    Generate something different
-                  </Link>
-                </div>
+            <div className="flex flex-row items-center justify-between gap-3">
+              <ThemeLabel
+                theme={item.theme}
+                level={item.level}
+                hideTheme={hideTheme}
+              />
+              <div className="flex flex-col gap-2 items-end">
+                {!item.manual && (
+                  <GenerateAnotherButton
+                    onClick={() => generateAnother(item)}
+                    spinning={generatingSource === "another"}
+                    disabled={isGenerating}
+                  />
+                )}
+                <Link
+                  to="/generate"
+                  className="text-xs text-gray-500 hover:text-blue-700 underline transition-colors "
+                >
+                  Generate something different
+                </Link>
               </div>
             </div>
           }

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import ExerciseCard from "./ExerciseCard";
 import {
   joinTokensWithWordValues,
   tokenizeSentence,
@@ -13,6 +14,9 @@ import { usePersistedState } from "./usePersistedState";
 const REVEAL_ENDINGS_KEY = "opimasin-translation-reveal-endings";
 
 interface Props {
+  // Shown above the exercise card.
+  notice?: React.ReactNode;
+  // The heading strip of the exercise card (theme/word, etc.).
   header: React.ReactNode;
   englishToTranslate: string;
   targetEstonian: string;
@@ -317,6 +321,7 @@ function SettingCheckbox({
 }
 
 function TranslationExerciseView({
+  notice,
   header,
   englishToTranslate,
   targetEstonian,
@@ -352,78 +357,82 @@ function TranslationExerciseView({
           description="Can be useful to force you to recall the word used in the sentence"
         />
       </SettingsBox>
-      {header}
-      {sentencePairs && (
-        <p className="text-xs text-gray-500 -mb-4">This is a long text</p>
-      )}
+      {notice}
+      <ExerciseCard heading={header}>
+        <div className="flex flex-col gap-8">
+          {sentencePairs && (
+            <p className="text-xs text-gray-500 -mb-4">This is a long text</p>
+          )}
 
-      {sentencePairs ? (
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
-            Translate to Estonian
-          </p>
-          <LongTextExercise
-            sentencePairs={sentencePairs}
-            attempts={attempts}
-            isCompleted={isCompleted}
-            revealEndings={revealEndings}
-            onSubmitAttempt={onSubmitAttempt}
-          />
-        </div>
-      ) : (
-        <>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
-              Translate to Estonian
-            </p>
-            <p className="text-2xl font-bold text-gray-900">
-              {englishToTranslate}
-            </p>
-          </div>
+          {sentencePairs ? (
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+                Translate to Estonian
+              </p>
+              <LongTextExercise
+                sentencePairs={sentencePairs}
+                attempts={attempts}
+                isCompleted={isCompleted}
+                revealEndings={revealEndings}
+                onSubmitAttempt={onSubmitAttempt}
+              />
+            </div>
+          ) : (
+            <>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">
+                  Translate to Estonian
+                </p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {englishToTranslate}
+                </p>
+              </div>
 
-          {attempts.length > 0 && (
-            <div className="flex flex-col gap-4">
-              {attempts.map((attempt, i) => (
-                <div key={i} className="flex flex-col gap-1">
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
-                      Attempt {i + 1}
-                    </span>
-                  </div>
-                  <AttemptDiff
-                    targetEstonian={targetEstonian}
-                    attempt={attempt}
-                  />
-                  {attempt.isCorrect && (
-                    <p className="text-sm text-green-600 font-semibold">
-                      ✓ Correct!
-                    </p>
-                  )}
+              {attempts.length > 0 && (
+                <div className="flex flex-col gap-4">
+                  {attempts.map((attempt, i) => (
+                    <div key={i} className="flex flex-col gap-1">
+                      <div className="flex items-baseline gap-3">
+                        <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
+                          Attempt {i + 1}
+                        </span>
+                      </div>
+                      <AttemptDiff
+                        targetEstonian={targetEstonian}
+                        attempt={attempt}
+                      />
+                      {attempt.isCorrect && (
+                        <p className="text-sm text-green-600 font-semibold">
+                          ✓ Correct!
+                        </p>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
+            </>
+          )}
+
+          {succeededOnLastAttempt && (
+            <div className="bg-green-50 border border-green-200 rounded-lg px-5 py-4">
+              <p className="text-green-700 font-semibold">
+                Well done! Your translation is correct.
+              </p>
             </div>
           )}
-        </>
-      )}
 
-      {succeededOnLastAttempt && (
-        <div className="bg-green-50 border border-green-200 rounded-lg px-5 py-4">
-          <p className="text-green-700 font-semibold">
-            Well done! Your translation is correct.
-          </p>
+          {!isCompleted && !sentencePairs && (
+            <SentenceExercise
+              targetEstonian={targetEstonian}
+              revealEndings={revealEndings}
+              autoFocus={false}
+              onSubmitAttempt={(userAnswer, wordValues) =>
+                onSubmitAttempt(userAnswer, wordValues)
+              }
+            />
+          )}
         </div>
-      )}
-
-      {!isCompleted && !sentencePairs && (
-        <SentenceExercise
-          targetEstonian={targetEstonian}
-          revealEndings={revealEndings}
-          autoFocus={false}
-          onSubmitAttempt={(userAnswer, wordValues) =>
-            onSubmitAttempt(userAnswer, wordValues)
-          }
-        />
-      )}
+      </ExerciseCard>
     </div>
   );
 }
