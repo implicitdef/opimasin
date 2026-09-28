@@ -216,7 +216,8 @@ function SentenceExercise({
         </button>
       </form>
       <p className="text-xs text-gray-400">
-        Tip: press Ctrl+Enter (Cmd+Enter on Mac) while in a word to reveal it.
+        Tip: press Ctrl+Enter (Cmd+Enter on Mac) while working on a word to
+        reveal it.
       </p>
     </div>
   );
@@ -361,7 +362,10 @@ function TranslationExerciseView({
       <ExerciseCard heading={header}>
         <div className="flex flex-col gap-8">
           {sentencePairs && (
-            <p className="text-xs text-gray-500 -mb-4">This is a long text</p>
+            <p className="text-xs text-gray-500 -mb-4">
+              This is a long text. We're making you translate it sentence by
+              sentence.
+            </p>
           )}
 
           {sentencePairs ? (

@@ -7,8 +7,8 @@ function ExerciseCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border border-gray-300 rounded-lg overflow-hidden">
-      <div className="bg-slate-100 border-b border-gray-300 px-5 py-3">
+    <div className="border border-gray-600">
+      <div className="bg-blue-100 border-b border-gray-600 px-5 py-3">
         {heading}
       </div>
       <div className="px-5 py-6">{children}</div>
