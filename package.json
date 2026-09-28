@@ -10,7 +10,8 @@
     "deploy": "vite build && gh-pages -d dist",
     "checktypes": "tsc -b --noEmit",
     "pretty": "prettier --write .",
-    "pretty-check": "prettier --check ."
+    "pretty-check": "prettier --check .",
+    "import-demo": "node scripts/import-demo-sentences.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "latest",
