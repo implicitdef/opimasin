@@ -14,11 +14,11 @@ const fieldClassName =
   "w-full border border-black rounded-md px-4 py-2.5 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-600 placeholder:italic border-2 bg-slate-100 text-blue-700 placeholder:text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:border-gray-300 disabled:placeholder:text-gray-400 disabled:cursor-not-allowed disabled:shadow-inner";
 
 const actionButtonClassName =
-  "flex items-center gap-1.5 border-blue-200 border bg-blue-200 text-gray-700 rounded-md py-2 text-sm font-semibold hover:bg-blue-300 transition-colors whitespace-nowrap disabled:bg-blue-100 disabled:text-gray-400 disabled:border-gray-300 disabled:border disabled:cursor-not-allowed ";
+  "flex items-center justify-center gap-2 border-blue-200 border bg-blue-200 text-gray-700 rounded-md py-3 text-base font-semibold hover:bg-blue-300 transition-colors whitespace-nowrap disabled:bg-blue-100 disabled:text-gray-400 disabled:border-gray-300 disabled:border disabled:cursor-not-allowed ";
 
-const submitButtonClassName = `${actionButtonClassName} px-5`;
+const submitButtonClassName = `${actionButtonClassName} flex-3 px-5`;
 
-const batchButtonClassName = `${actionButtonClassName} px-3`;
+const batchButtonClassName = `${actionButtonClassName} flex-1 px-3`;
 
 interface Props {
   value: string;
@@ -83,7 +83,7 @@ function GenerateForm({
               value={level}
               onChange={(e) => onLevelChange(e.target.value as SentenceLevel)}
               disabled={disabled}
-              className={selectClassName}
+              className={`${selectClassName} shrink-0 sm:w-40`}
             >
               <option value="A1">{SENTENCE_LEVEL_LABELS.A1}</option>
               <option value="B1">{SENTENCE_LEVEL_LABELS.B1}</option>
@@ -92,14 +92,14 @@ function GenerateForm({
           </div>
         </label>
       )}
-      <div className="flex gap-2">
+      <div className="flex gap-2 mt-3">
         <button
           type="submit"
           disabled={!value.trim() || disabled}
           className={`${submitButtonClassName} ${submitLoading ? "btn-shimmer" : ""}`}
         >
           <RefreshCcw
-            size={20}
+            size={22}
             className={`shrink-0 ${submitLoading ? "animate-spin" : ""}`}
           />
           {manualMode
@@ -119,7 +119,7 @@ function GenerateForm({
             className={`${batchButtonClassName} ${batchLoading ? "btn-shimmer" : ""}`}
           >
             <RefreshCcw
-              size={18}
+              size={20}
               className={`shrink-0 ${batchLoading ? "animate-spin" : ""}`}
             />
             3x
