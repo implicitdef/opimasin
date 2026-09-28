@@ -233,7 +233,7 @@ function SentencePage() {
                   or{" "}
                   <Link
                     to="/generate"
-                    className=" text-gray-500 hover:text-blue-700 underline transition-colors "
+                    className=" hover:text-blue-700 underline transition-colors "
                   >
                     generate something different
                   </Link>

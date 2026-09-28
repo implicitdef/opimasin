@@ -215,7 +215,7 @@ function SentenceExercise({
           Check
         </button>
       </form>
-      <p className="text-xs text-gray-400">
+      <p className="text-xs text-gray-500">
         Tip: press Ctrl+Enter (Cmd+Enter on Mac) while working on a word to
         reveal it.
       </p>
