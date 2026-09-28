@@ -133,6 +133,7 @@ function GenerationPage() {
         storageKey="opimasin-generation-advanced-open"
         title="advanced options"
         icon={null}
+        plain
         className="mt-2"
         stacked
       >

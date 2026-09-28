@@ -12,6 +12,7 @@ function SettingsBox({
   title = "Settings",
   icon: Icon = Settings,
   stacked,
+  plain,
   className = "-mt-4",
   children,
 }: {
@@ -21,6 +22,8 @@ function SettingsBox({
   /** Pass null to show no icon. */
   icon?: LucideIcon | null;
   stacked?: boolean;
+  /** No background nor padding around the box; only the content is indented. */
+  plain?: boolean;
   /** Extra classes for the box, mostly for its outer spacing. */
   className?: string;
   children: ReactNode;
@@ -29,7 +32,9 @@ function SettingsBox({
   const Chevron = open ? ChevronDown : ChevronRight;
 
   return (
-    <div className={`flex flex-col gap-3 bg-gray-200 p-4 ${className}`}>
+    <div
+      className={`flex flex-col gap-3 ${plain ? "" : "bg-gray-200 p-4"} ${className}`}
+    >
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -42,11 +47,11 @@ function SettingsBox({
       </button>
       {open && (
         <div
-          className={
+          className={`${
             stacked
               ? "flex flex-col items-start gap-3"
               : "flex items-center gap-4 flex-wrap"
-          }
+          } ${plain ? "pl-6" : ""}`}
         >
           {children}
         </div>
