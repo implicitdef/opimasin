@@ -128,6 +128,30 @@ function GenerationPage() {
         Generate one (or more) sentence(s) for you to translate.
       </YellowDescription>
 
+      {mode !== "manual" && (
+        <label className="flex items-center gap-2 text-sm text-gray-600">
+          <input
+            type="checkbox"
+            checked={mode === "list"}
+            onChange={() => handleToggleMode("list")}
+            disabled={isGenerating}
+          />
+          Generate from a vocabulary list
+        </label>
+      )}
+
+      {mode !== "list" && (
+        <label className="flex items-center gap-2 text-sm text-gray-600">
+          <input
+            type="checkbox"
+            checked={mode === "manual"}
+            onChange={() => handleToggleMode("manual")}
+            disabled={isGenerating}
+          />
+          Insert a manually generated Estonian sentence
+        </label>
+      )}
+
       {mode === "list" && (
         <p className="text-xs text-gray-500">
           Write a list of words (one by line). Each line will be used separately
@@ -153,12 +177,19 @@ function GenerationPage() {
         onChange={setThemeInput}
         onSubmit={handleSubmit}
         onGenerateBatch={handleGenerateBatch}
+        label={
+          mode === "list"
+            ? "Vocabulary list"
+            : mode === "manual"
+              ? "Estonian sentence or text"
+              : "Theme or input words"
+        }
         placeholder={
           mode === "list"
             ? "õun\nlahti tegema\njalkat\nminu arust\n..."
             : mode === "manual"
               ? "Paste or type an Estonian sentence (or a short text)"
-              : 'Theme or input words. example : "leemikloom", "lahti tegema", "past tense"'
+              : 'e.g. "lemmikloom", "lahti tegema", "past tense", ...'
         }
         submitLoading={generatingSource === "single"}
         batchLoading={generatingSource === "batch"}
@@ -168,30 +199,6 @@ function GenerationPage() {
         onLevelChange={setLevel}
         manualMode={mode === "manual"}
       />
-
-      {mode !== "manual" && (
-        <label className="flex items-center gap-2 text-sm text-gray-600">
-          <input
-            type="checkbox"
-            checked={mode === "list"}
-            onChange={() => handleToggleMode("list")}
-            disabled={isGenerating}
-          />
-          Generate from a vocabulary list
-        </label>
-      )}
-
-      {mode !== "list" && (
-        <label className="flex items-center gap-2 text-sm text-gray-600">
-          <input
-            type="checkbox"
-            checked={mode === "manual"}
-            onChange={() => handleToggleMode("manual")}
-            disabled={isGenerating}
-          />
-          Insert a manually generated Estonian sentence
-        </label>
-      )}
     </PageMain>
   );
 }
