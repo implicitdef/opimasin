@@ -60,9 +60,16 @@ function SentenceListPage() {
   return (
     <PageMain>
       <div className="flex flex-col gap-2">
-        <TabDescription>
-          Translation exercise, English to Estonian. Pick a sentence below to
-          practice, or generate new ones from a theme, some words, or an idiom.
+        <TabDescription
+          storageKey="opimasin-sentence-list-description-open"
+          details={
+            <>
+              Pick a sentence below to practice, or generate new ones from a
+              theme, some words, or an idiom.
+            </>
+          }
+        >
+          Translation exercise, English to Estonian.
         </TabDescription>
       </div>
 

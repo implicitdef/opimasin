@@ -67,22 +67,27 @@ function GenerationPage() {
     <PageMain gap={4}>
       <BackToListLink />
 
-      <TabDescription>
-        Generate a translation exercise, English to Estonian.
-        <br />
-        The sentence to guess will be based on the little input you give.
-        <br />- For example, if you type "family", you might have to find the
-        sentence "Minu perekonnas on neli inimest ja üks koer".
-        <br />- Or if you type "hädas olema", you might get "Ta helistas mulle,
-        kuna oli suures hädas". <br />
-        Generating a sentence will make some requests to Anthropic API.
-        {!apiKey && (
+      <TabDescription
+        storageKey="opimasin-generation-description-open"
+        details={
           <>
-            {" "}
-            Try the demo sentences for free — you'll be asked for an API key
-            only when you generate your own.
+            The sentence to guess will be based on the little input you give.
+            <br />- For example, if you type "family", you might have to find
+            the sentence "Minu perekonnas on neli inimest ja üks koer".
+            <br />- Or if you type "hädas olema", you might get "Ta helistas
+            mulle, kuna oli suures hädas". <br />
+            Generating a sentence will make some requests to Anthropic API.
+            {!apiKey && (
+              <>
+                {" "}
+                Try the demo sentences for free — you'll be asked for an API key
+                only when you generate your own.
+              </>
+            )}
           </>
-        )}
+        }
+      >
+        Generate a translation exercise, English to Estonian.
       </TabDescription>
 
       {mode === "list" && (
