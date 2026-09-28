@@ -3,8 +3,8 @@ import { RefreshCcw } from "lucide-react";
 import BackToListLink from "./BackToListLink";
 import { useApiKey } from "./CredentialsContext";
 import { isExactMatch } from "./estonianDiff";
-import { useFromTheme } from "./FromThemeContext";
 import ExerciseCard from "./ExerciseCard";
+import { useFromTheme } from "./FromThemeContext";
 import GenerateAnotherButton from "./GenerateAnotherButton";
 import PageMain from "./PageMain";
 import { longTextPairs, solvedSentences } from "./sentenceSplit";
@@ -229,12 +229,15 @@ function SentencePage() {
                     disabled={isGenerating}
                   />
                 )}
-                <Link
-                  to="/generate"
-                  className="text-xs text-gray-500 hover:text-blue-700 underline transition-colors "
-                >
-                  Generate something different
-                </Link>
+                <span className="text-xs">
+                  or{" "}
+                  <Link
+                    to="/generate"
+                    className=" text-gray-500 hover:text-blue-700 underline transition-colors "
+                  >
+                    generate something different
+                  </Link>
+                </span>
               </div>
             </div>
           }

@@ -19,22 +19,23 @@ function ThemeLabel({
 }) {
   const formattedLevel = formatLevel(level);
   return (
-    <div>
-      <span className="text-gray-500">Theme or word : </span>
-      <>
+    <div className="flex flex-col gap-1">
+      <div>
+        <span className="text-gray-500">Theme or word : </span>
         {hideTheme ? (
           <span className="font-mono text-gray-400 italic">&lt;hidden&gt;</span>
         ) : (
           <>
             "<span className="font-mono">{theme}</span>"
           </>
-        )}{" "}
-        {formattedLevel && (
-          <span className="text-sm text-gray-500 italic">
-            ({formattedLevel})
-          </span>
         )}
-      </>
+      </div>
+      {formattedLevel && (
+        <div className="text-sm italic">
+          <span className="text-gray-500">Sentence complexity : </span>
+          {formattedLevel}
+        </div>
+      )}
     </div>
   );
 }
