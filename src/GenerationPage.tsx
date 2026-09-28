@@ -69,8 +69,7 @@ function GenerationPage() {
         storageKey="opimasin-generation-description-open"
         details={
           <>
-            The sentence will be based on the theme or word you give. There are
-            many ways to use this :
+            There are many ways to use this :
             <ul className="list-decimal list-inside space-y-2 mt-2">
               <li>
                 with a general theme, like{" "}
@@ -121,12 +120,12 @@ function GenerationPage() {
             <br />
             <b>Generating sentences requires an Anthropic API key.</b>. Each
             generation is very very cheap though. Anthropic requires you to put
-            a minimum of 5$, and with this you can generate enough content on
-            this app for weeks of study.
+            a minimum of 5$, and with this you have enough for weeks of study.
           </>
         }
       >
-        Generate one (or 3) sentence(s) for you to translate.
+        Generate one (or 3) sentence(s) for you to translate. The sentence will
+        be based on the theme or word you give.
       </YellowDescription>
 
       <SettingsBox
@@ -137,29 +136,25 @@ function GenerationPage() {
         className="mt-2"
         stacked
       >
-        {mode !== "manual" && (
-          <label className="flex items-center gap-2 text-sm text-gray-600">
-            <input
-              type="checkbox"
-              checked={mode === "list"}
-              onChange={() => handleToggleMode("list")}
-              disabled={isGenerating}
-            />
-            Generate from a vocabulary list
-          </label>
-        )}
+        <label className="flex items-center gap-2 text-sm text-gray-600 has-disabled:text-gray-400">
+          <input
+            type="checkbox"
+            checked={mode === "list"}
+            onChange={() => handleToggleMode("list")}
+            disabled={isGenerating || mode === "manual"}
+          />
+          Generate from a vocabulary list
+        </label>
 
-        {mode !== "list" && (
-          <label className="flex items-center gap-2 text-sm text-gray-600">
-            <input
-              type="checkbox"
-              checked={mode === "manual"}
-              onChange={() => handleToggleMode("manual")}
-              disabled={isGenerating}
-            />
-            Insert an already generated Estonian sentence (or whole text)
-          </label>
-        )}
+        <label className="flex items-center gap-2 text-sm text-gray-600 has-disabled:text-gray-400">
+          <input
+            type="checkbox"
+            checked={mode === "manual"}
+            onChange={() => handleToggleMode("manual")}
+            disabled={isGenerating || mode === "list"}
+          />
+          Insert an already generated Estonian sentence (or whole text)
+        </label>
       </SettingsBox>
 
       {mode === "list" && (
