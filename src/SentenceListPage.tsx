@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { useFromTheme } from "./FromThemeContext";
 import PageMain from "./PageMain";
@@ -41,19 +42,35 @@ function SentenceRow({ item }: { item: ThemePracticeItem }) {
   );
 }
 
+function GenerateLink({ children }: { children: ReactNode }) {
+  return (
+    <Link
+      to="/generate"
+      className="self-start text-sm font-semibold text-blue-700 hover:text-blue-800 underline"
+    >
+      {children}
+    </Link>
+  );
+}
+
 function SentenceListPage() {
   const { userItems, demoItems, clearUserItems, resetDemoItems } =
     useFromTheme();
 
   return (
     <PageMain>
-      <TabDescription>
-        Translation exercise, English to Estonian. Pick a sentence below to
-        practice, or generate new ones from a theme, some words, or an idiom.
-      </TabDescription>
+      <div className="flex flex-col gap-2">
+        <TabDescription>
+          Translation exercise, English to Estonian. Pick a sentence below to
+          practice, or generate new ones from a theme, some words, or an idiom.
+        </TabDescription>
+        {userItems.length === 0 && (
+          <GenerateLink>Generate your own sentences</GenerateLink>
+        )}
+      </div>
 
-      <section className="flex flex-col gap-2">
-        {userItems.length > 0 && (
+      {userItems.length > 0 && (
+        <section className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-bold text-gray-900">Your sentences</h2>
             <button
@@ -64,23 +81,14 @@ function SentenceListPage() {
               Clear all
             </button>
           </div>
-        )}
-        <Link
-          to="/generate"
-          className="self-start text-sm font-semibold text-blue-700 hover:text-blue-800 underline"
-        >
-          {userItems.length === 0
-            ? "Generate your own sentences"
-            : "Generate more"}
-        </Link>
-        {userItems.length > 0 && (
+          <GenerateLink>Generate more</GenerateLink>
           <ul className="flex flex-col bg-blue-50 divide-y divide-gray-400 rounded-lg overflow-hidden mt-1">
             {userItems.map((item) => (
               <SentenceRow key={item.id} item={item} />
             ))}
           </ul>
-        )}
-      </section>
+        </section>
+      )}
 
       <section className="flex flex-col gap-2">
         <div className="flex items-center gap-3">
