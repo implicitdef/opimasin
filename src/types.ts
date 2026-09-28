@@ -14,6 +14,11 @@ export const SENTENCE_LEVEL_LABELS: Record<SentenceLevel, string> = {
   B1: "Difficult",
 };
 
+export const SENTENCE_LEVEL_DESCRIPTIONS: Record<SentenceLevel, string> = {
+  A1: "Short and simple sentences (but tends to be too artificial and quickly repetitive)",
+  B1: "Longer sentences with more complex structures (but tends to require words that you may not know yet)",
+};
+
 export interface ThemePracticeItem {
   id: string;
   theme: string;

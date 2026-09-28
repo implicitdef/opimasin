@@ -1,5 +1,11 @@
 import { RefreshCcw } from "lucide-react";
-import { SENTENCE_LEVEL_LABELS, type SentenceLevel } from "./types";
+import {
+  SENTENCE_LEVEL_DESCRIPTIONS,
+  SENTENCE_LEVEL_LABELS,
+  type SentenceLevel,
+} from "./types";
+
+const labelClassName = "flex flex-col gap-1 text-sm text-gray-600";
 
 const selectClassName =
   "border border-black rounded-md px-2 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-2 bg-slate-100 text-blue-700 disabled:bg-gray-200 disabled:text-gray-400 disabled:border-gray-300 disabled:cursor-not-allowed";
@@ -47,8 +53,8 @@ function GenerateForm({
 }: Props) {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-3 max-w-4xl">
-      <label className="flex flex-col gap-1 text-sm text-gray-600">
-        {label}
+      <label className={labelClassName}>
+        <b>{label}</b>
         {multiline ? (
           <textarea
             value={value}
@@ -70,17 +76,20 @@ function GenerateForm({
         )}
       </label>
       {!manualMode && (
-        <label className="flex items-center gap-2 text-sm text-gray-600">
-          Sentence complexity
-          <select
-            value={level}
-            onChange={(e) => onLevelChange(e.target.value as SentenceLevel)}
-            disabled={disabled}
-            className={selectClassName}
-          >
-            <option value="A1">{SENTENCE_LEVEL_LABELS.A1}</option>
-            <option value="B1">{SENTENCE_LEVEL_LABELS.B1}</option>
-          </select>
+        <label className={labelClassName}>
+          <b>Sentence complexity</b>
+          <div className="flex items-center gap-3">
+            <select
+              value={level}
+              onChange={(e) => onLevelChange(e.target.value as SentenceLevel)}
+              disabled={disabled}
+              className={selectClassName}
+            >
+              <option value="A1">{SENTENCE_LEVEL_LABELS.A1}</option>
+              <option value="B1">{SENTENCE_LEVEL_LABELS.B1}</option>
+            </select>
+            <span className="italic">{SENTENCE_LEVEL_DESCRIPTIONS[level]}</span>
+          </div>
         </label>
       )}
       <div className="flex gap-2">

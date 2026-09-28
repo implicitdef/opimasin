@@ -148,7 +148,7 @@ function GenerationPage() {
             onChange={() => handleToggleMode("manual")}
             disabled={isGenerating}
           />
-          Insert a manually generated Estonian sentence
+          Insert an already generated Estonian sentence (or whole text)
         </label>
       )}
 
@@ -168,7 +168,9 @@ function GenerationPage() {
         <p className="text-xs text-gray-500">
           Paste in an Estonian sentence, or a short text made of several
           sentences. It will be used as-is (no AI sentence generation) — we only
-          make one API call, to translate it to English.
+          make one API call, to translate it to English. <br />
+          In the case of a text, the exercise page will adapt to make you work
+          it sentence by sentence.
         </p>
       )}
 
