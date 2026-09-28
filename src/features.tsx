@@ -36,7 +36,7 @@ export const FEATURES: Feature[] = [
     inTextLabel: "Translation exercise",
     to: "/translation-exercise",
     description:
-      "Translate English sentences into Estonian. Pick a demo sentence, generate new ones from a theme or a few words, or write your own — then check your answer word by word.",
+      "Translate English sentences into Estonian. Super useful. Forces you to actually form sentences, to think a bit about grammar, and helps you letter hints so that it's not too hard.",
     icon: Languages,
     isActive: (path) =>
       path.startsWith("/translation-exercise") ||
