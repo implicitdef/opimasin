@@ -119,8 +119,8 @@ function GenerationPage() {
             </ul>
             <br />
             <b>Generating sentences requires an Anthropic API key.</b>. Each
-            generation is very very cheap though. Anthropic requires you to put
-            a minimum of 5$, and with this you have enough for weeks of study.
+            generation is very very cheap though. About half a cent per
+            sentence.
           </>
         }
       >

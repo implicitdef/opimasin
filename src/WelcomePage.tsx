@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { visibleFeatures } from "./features";
+import FoldableText from "./FoldableText";
 import { useOwnerMode } from "./OwnerModeContext";
 
 function WelcomePage() {
@@ -11,7 +12,32 @@ function WelcomePage() {
     <main className="flex-1 overflow-y-auto px-6 py-8">
       <div className="max-w-3xl mx-auto flex flex-col gap-8">
         <div className="flex flex-col gap-2 text-gray-600 max-w-2xl">
-          <p className="">A handful of tools to practice Estonian.</p>
+          <FoldableText
+            storageKey="opimasin-welcome-intro-open"
+            toggleLabel="about"
+            black
+            details={
+              <div className="bg-gray-200 p-4 flex gap-4 flex-col">
+                <p>
+                  I made this for myself to practice Estonian. I use it all the
+                  time. Hopefully it can be useful to others.
+                </p>
+                <p>
+                  It is free to use, but <b>requires an Anthropic API key</b>{" "}
+                  for most features.
+                  <br /> Anthropic requires you to fund your usage with a
+                  minimum of $5. All features of this app consumes very little
+                  tokens, so with $5 you can easily practice for weeks.
+                </p>
+                <p>
+                  There is no account creation on this app, everything is stored
+                  in the local storage of your browser.
+                </p>
+              </div>
+            }
+          >
+            A handful of tools to practice Estonian.
+          </FoldableText>
         </div>
 
         <ul className="border-t border-gray-900">
