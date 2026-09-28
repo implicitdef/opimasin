@@ -72,6 +72,23 @@ function GenerationPage() {
             There are many ways to use this :
             <ul className="list-decimal list-inside space-y-2 mt-2">
               <li>
+                with a specific word that you want to practice, like{" "}
+                <ul className="ml-4">
+                  <li className="text-green-700 font-mono">"helistama"</li>
+                  <li className="text-green-700 font-mono">"ohtlik"</li>
+                  <li className="text-green-700 font-mono">"eraldi"</li>
+                </ul>
+              </li>
+
+              <li>
+                with a compound expression, for example{" "}
+                <ul className="ml-4">
+                  <li className="text-green-700 font-mono">"hädas olema"</li>
+                  <li className="text-green-700 font-mono">"katki minema"</li>
+                  <li className="text-green-700 font-mono">"lahti tegema"</li>
+                </ul>
+              </li>
+              <li>
                 with a general theme, like{" "}
                 <ul className="ml-4">
                   <li className="text-green-700 font-mono">
@@ -83,22 +100,6 @@ function GenerationPage() {
                   <li className="text-green-700 font-mono">
                     "any kind of transportation, bus, plane, bike, etc."
                   </li>
-                </ul>
-              </li>
-              <li>
-                with a specific word that you want to practice, like{" "}
-                <ul className="ml-4">
-                  <li className="text-green-700 font-mono">"helistama"</li>
-                  <li className="text-green-700 font-mono">"ohtlik"</li>
-                  <li className="text-green-700 font-mono">"eraldi"</li>
-                </ul>
-              </li>
-              <li>
-                with a compound expression, for example{" "}
-                <ul className="ml-4">
-                  <li className="text-green-700 font-mono">"hädas olema"</li>
-                  <li className="text-green-700 font-mono">"katki minema"</li>
-                  <li className="text-green-700 font-mono">"lahti tegema"</li>
                 </ul>
               </li>
               <li>
