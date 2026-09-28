@@ -3,6 +3,7 @@ import BackToListLink from "./BackToListLink";
 import { useFromTheme } from "./FromThemeContext";
 import GenerateForm from "./GenerateForm";
 import PageMain from "./PageMain";
+import SettingsBox from "./SettingsBox";
 import YellowDescription from "./YellowDescription";
 
 function parseListLines(raw: string): string[] {
@@ -128,29 +129,37 @@ function GenerationPage() {
         Generate one (or more) sentence(s) for you to translate.
       </YellowDescription>
 
-      {mode !== "manual" && (
-        <label className="flex items-center gap-2 text-sm text-gray-600">
-          <input
-            type="checkbox"
-            checked={mode === "list"}
-            onChange={() => handleToggleMode("list")}
-            disabled={isGenerating}
-          />
-          Generate from a vocabulary list
-        </label>
-      )}
+      <SettingsBox
+        storageKey="opimasin-generation-advanced-open"
+        title="advanced options"
+        icon={null}
+        className="mt-2"
+        stacked
+      >
+        {mode !== "manual" && (
+          <label className="flex items-center gap-2 text-sm text-gray-600">
+            <input
+              type="checkbox"
+              checked={mode === "list"}
+              onChange={() => handleToggleMode("list")}
+              disabled={isGenerating}
+            />
+            Generate from a vocabulary list
+          </label>
+        )}
 
-      {mode !== "list" && (
-        <label className="flex items-center gap-2 text-sm text-gray-600">
-          <input
-            type="checkbox"
-            checked={mode === "manual"}
-            onChange={() => handleToggleMode("manual")}
-            disabled={isGenerating}
-          />
-          Insert an already generated Estonian sentence (or whole text)
-        </label>
-      )}
+        {mode !== "list" && (
+          <label className="flex items-center gap-2 text-sm text-gray-600">
+            <input
+              type="checkbox"
+              checked={mode === "manual"}
+              onChange={() => handleToggleMode("manual")}
+              disabled={isGenerating}
+            />
+            Insert an already generated Estonian sentence (or whole text)
+          </label>
+        )}
+      </SettingsBox>
 
       {mode === "list" && (
         <p className="text-xs text-gray-500">
