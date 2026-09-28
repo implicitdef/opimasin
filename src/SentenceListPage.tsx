@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { useFromTheme } from "./FromThemeContext";
 import PageMain from "./PageMain";
 import { longTextPairs, solvedSentences } from "./sentenceSplit";
@@ -64,9 +64,6 @@ function SentenceListPage() {
           Translation exercise, English to Estonian. Pick a sentence below to
           practice, or generate new ones from a theme, some words, or an idiom.
         </TabDescription>
-        {userItems.length === 0 && (
-          <GenerateLink>Generate your own sentences</GenerateLink>
-        )}
       </div>
 
       {userItems.length > 0 && (
@@ -91,6 +88,11 @@ function SentenceListPage() {
       )}
 
       <section className="flex flex-col gap-2">
+        {userItems.length === 0 && (
+          <div className="flex items-end justify-center mb-4">
+            <GenerateLink>Generate your own sentences</GenerateLink>
+          </div>
+        )}
         <div className="flex items-center gap-3">
           <h2 className="text-lg font-bold text-gray-900">Demo sentences</h2>
           <button
