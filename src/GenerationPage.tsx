@@ -158,7 +158,7 @@ function GenerationPage() {
             ? "õun\nlahti tegema\njalkat\nminu arust\n..."
             : mode === "manual"
               ? "Paste or type an Estonian sentence (or a short text)"
-              : "Type a theme (in English) or some words or idiom (in Estonian)"
+              : 'Theme or input words. example : "leemikloom", "lahti tegema", "past tense"'
         }
         submitLoading={generatingSource === "single"}
         batchLoading={generatingSource === "batch"}
