@@ -46,7 +46,7 @@ function GenerateLink({ children }: { children: ReactNode }) {
   return (
     <Link
       to="/generate"
-      className="self-start text-sm font-semibold text-blue-700 hover:text-blue-800 underline"
+      className="text-sm text-blue-700 hover:text-blue-500 underline"
     >
       {children}
     </Link>
@@ -70,15 +70,16 @@ function SentenceListPage() {
         <section className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-bold text-gray-900">Your sentences</h2>
+            <GenerateLink>Generate more</GenerateLink>
             <button
               onClick={clearUserItems}
-              className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+              className="text-xs text-gray-500 hover:text-red-500 transition-colors underline"
               title="Clear your sentences"
             >
               Clear all
             </button>
           </div>
-          <GenerateLink>Generate more</GenerateLink>
+          {/* <GenerateLink>Generate more</GenerateLink> */}
           <ul className="flex flex-col bg-blue-50 divide-y divide-gray-400 rounded-lg overflow-hidden mt-1">
             {userItems.map((item) => (
               <SentenceRow key={item.id} item={item} />
@@ -89,7 +90,7 @@ function SentenceListPage() {
 
       <section className="flex flex-col gap-2">
         {userItems.length === 0 && (
-          <div className="flex items-end justify-center mb-4">
+          <div className="flex items-end justify-center mb-4 font-bold">
             <GenerateLink>Generate your own sentences</GenerateLink>
           </div>
         )}
@@ -97,7 +98,7 @@ function SentenceListPage() {
           <h2 className="text-lg font-bold text-gray-900">Demo sentences</h2>
           <button
             onClick={resetDemoItems}
-            className="text-xs text-gray-400 hover:text-blue-600 transition-colors"
+            className="text-xs text-gray-500 hover:text-blue-600 transition-colors underline"
             title="Reset demo sentences to their original unsolved state"
           >
             Reset your answers
