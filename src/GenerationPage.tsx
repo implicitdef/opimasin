@@ -1,6 +1,5 @@
 import { useState } from "react";
 import BackToListLink from "./BackToListLink";
-import { useApiKey } from "./CredentialsContext";
 import { useFromTheme } from "./FromThemeContext";
 import GenerateForm from "./GenerateForm";
 import PageMain from "./PageMain";
@@ -16,7 +15,6 @@ function parseListLines(raw: string): string[] {
 type FormMode = "single" | "list" | "manual";
 
 function GenerationPage() {
-  const { apiKey } = useApiKey();
   const {
     level,
     setLevel,
@@ -70,9 +68,9 @@ function GenerationPage() {
         storageKey="opimasin-generation-description-open"
         details={
           <>
-            The sentence will be based on the theme or word you give. This can
-            be in English or Estonian. There are many ways to use this.
-            <ul className="list-disc list-inside space-y-2 mt-2">
+            The sentence will be based on the theme or word you give. There are
+            many ways to use this :
+            <ul className="list-decimal list-inside space-y-2 mt-2">
               <li>
                 with a general theme, like{" "}
                 <ul className="ml-4">
@@ -120,15 +118,14 @@ function GenerationPage() {
               </li>
             </ul>
             <br />
-            <br />
-            <br />
-            <b>
-              Generating a sentence will make some requests to Anthropic API.
-            </b>
+            <b>Generating sentences requires an Anthropic API key.</b>. Each
+            generation is very very cheap though. Anthropic requires you to put
+            a minimum of 5$, and with this you can generate enough content on
+            this app for weeks of study.
           </>
         }
       >
-        Generate a sentence for you to translate.
+        Generate one (or more) sentence(s) for you to translate.
       </YellowDescription>
 
       {mode === "list" && (
@@ -194,13 +191,6 @@ function GenerationPage() {
           />
           Insert a manually generated Estonian sentence
         </label>
-      )}
-
-      {mode === "single" && (
-        <p className="text-xs text-gray-400">
-          e.g. "beach", "forest", "job interview", "at the gym", ... OR "tööle
-          võtma", "rääkimata", "X-ks valmis", "ostma VS otsima", ...
-        </p>
       )}
     </PageMain>
   );
