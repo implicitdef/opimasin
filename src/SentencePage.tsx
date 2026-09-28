@@ -207,7 +207,7 @@ function SentencePage() {
               {isDemo && !apiKey && (
                 <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-1.5 w-fit">
                   This is a pregenerated example. Generating your own sentences
-                  needs an Anthropic API key.
+                  requires an Anthropic API key.
                 </p>
               )}
               <div className="flex flex-row items-center justify-between gap-3 border border-gray-500 rounded-md px-4 py-3">

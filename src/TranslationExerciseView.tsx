@@ -343,12 +343,12 @@ function TranslationExerciseView({
           checked={revealEndings}
           onChange={setRevealEndings}
           label="Also reveal the word endings (for words of 5+ letters)"
-          description="Makes it much easier and faster. But you don't practice the choice of the correct ending for genitive, partitive, etc."
+          description="Makes it much easier and faster. But you don't practice choosing the correct ending for genitive, partitive, etc."
         />
         <SettingCheckbox
           checked={hideTheme}
           onChange={onHideThemeChange}
-          label="Hide the theme/word that was used to generate the sentece"
+          label="Hide the theme/word that was used to generate the sentence"
           description="Can be useful to force you to recall the word used in the sentence"
         />
       </SettingsBox>
