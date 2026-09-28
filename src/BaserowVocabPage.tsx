@@ -3,7 +3,7 @@ import { useState } from "react";
 import CredentialForm from "./CredentialForm";
 import { CREDENTIALS, useCredential } from "./CredentialsContext";
 import PageMain from "./PageMain";
-import TabDescription from "./TabDescription";
+import YellowDescription from "./YellowDescription";
 import {
   createRows,
   fetchAllRows,
@@ -156,12 +156,12 @@ function BaserowVocabPage() {
   }
 
   const description = (
-    <TabDescription>
+    <YellowDescription>
       Paste new vocabulary (one <code>estonian⇥english</code> pair per line,
       e.g. copied from a spreadsheet) to add it to your Baserow vocabulary
       table. New words are added straight away; for words already in the table,
       you choose which English translation to keep.
-    </TabDescription>
+    </YellowDescription>
   );
 
   if (!baserow.isSet) {

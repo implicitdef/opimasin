@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import SubtitleTrail from "./SubtitleTrail";
-import TabDescription from "./TabDescription";
+import YellowDescription from "./YellowDescription";
 import { parseComplexVocab } from "./complexVocab";
 import {
   detectLanguageLabel,
@@ -228,7 +228,7 @@ function VideoMode() {
       {!videoFile || !primaryTrack ? (
         <div className="flex-1 flex items-center justify-center px-6">
           <div className="w-full max-w-md flex flex-col gap-4">
-            <TabDescription>
+            <YellowDescription>
               Watch an Estonian video with dual subtitles plus an optional
               vocabulary cheatsheet to help with tricky words.
               <br />
@@ -238,7 +238,7 @@ function VideoMode() {
               in French or English)
               <br />- the cheatsheet, which needs to be generated with a script
               that does use Anthropic API.
-            </TabDescription>
+            </YellowDescription>
             <label className="flex items-center gap-3 border border-gray-300 rounded-lg px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors">
               <FileVideo size={20} className="text-blue-700 shrink-0" />
               <span className="text-sm text-gray-700">

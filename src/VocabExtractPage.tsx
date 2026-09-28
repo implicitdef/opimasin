@@ -4,7 +4,7 @@ import ApiKeyModal from "./ApiKeyModal";
 import { useApiKey } from "./CredentialsContext";
 import FeatureLink from "./FeatureLink";
 import PageMain from "./PageMain";
-import TabDescription from "./TabDescription";
+import YellowDescription from "./YellowDescription";
 import type { VocabPair } from "./types";
 import { extractVocabFromChunk } from "./vocab-extract-api";
 import { chunkText, dedupeVocabPairs, toTsv } from "./vocabExtract";
@@ -101,7 +101,7 @@ function VocabExtractPage() {
 
   return (
     <PageMain gap={4}>
-      <TabDescription
+      <YellowDescription
         storageKey="opimasin-vocab-extract-description-open"
         details={
           <>
@@ -126,7 +126,7 @@ function VocabExtractPage() {
       >
         Paste an Estonian text and extract the vocabulary, with English
         translations.
-      </TabDescription>
+      </YellowDescription>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <textarea

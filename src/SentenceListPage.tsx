@@ -4,9 +4,9 @@ import { useFromTheme } from "./FromThemeContext";
 import PageMain from "./PageMain";
 import { longTextPairs, solvedSentences } from "./sentenceSplit";
 import { itemStatus, StatusIcon } from "./StatusIcon";
-import TabDescription from "./TabDescription";
 import { formatLevel } from "./ThemeLabel";
 import type { ThemePracticeItem } from "./types";
+import YellowDescription from "./YellowDescription";
 
 function longTextLabel(item: ThemePracticeItem): string | null {
   const pairs = longTextPairs(item.sentence, item.englishTranslation);
@@ -60,17 +60,31 @@ function SentenceListPage() {
   return (
     <PageMain>
       <div className="flex flex-col gap-2">
-        <TabDescription
+        <YellowDescription
           storageKey="opimasin-sentence-list-description-open"
           details={
             <>
-              Pick a sentence below to practice, or generate new ones from a
-              theme, some words, or an idiom.
+              <span>
+                The demo sentences are useful to get a feel for how it works.
+                <br />
+                But the exercise really shines when you generate your own
+                sentences, and thus work on exactly the vocabulary or type of
+                sentences you're interesting in.
+              </span>
+              <br />
+              <br />
+              Generating your own sentences requires an Anthropic API key. It's
+              not free but it's very cheap.
+              <br />
+              <br />
+              <b>Note :</b> I've found this exercise <b>extremely</b> useful and
+              it's the main way I practice my Estonian.
             </>
           }
         >
-          Translation exercise, English to Estonian.
-        </TabDescription>
+          Translation exercise. Pick one of the demo sentences, or generate your
+          own.
+        </YellowDescription>
       </div>
 
       {userItems.length > 0 && (

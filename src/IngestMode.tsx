@@ -12,7 +12,7 @@ import FeatureLink from "./FeatureLink";
 import IngestPractice from "./IngestPractice";
 import { PREGENERATED_LISTS } from "./pregeneratedVocab";
 import SettingsBox from "./SettingsBox";
-import TabDescription from "./TabDescription";
+import YellowDescription from "./YellowDescription";
 import type { VocabList, VocabPair } from "./types";
 import { usePersistedState } from "./usePersistedState";
 import {
@@ -501,7 +501,7 @@ function IngestMode() {
   return (
     <main className="flex-1 overflow-y-auto px-6 py-4">
       <div className="max-w-2xl mx-auto flex flex-col gap-6">
-        <TabDescription
+        <YellowDescription
           storageKey="opimasin-ingest-description-open"
           details={
             <>
@@ -528,7 +528,7 @@ function IngestMode() {
           }
         >
           Paste a vocabulary list and practice guessing the translations.
-        </TabDescription>
+        </YellowDescription>
 
         <SettingsBox storageKey="opimasin-ingest-settings-open">
           <label className="flex items-center gap-2 text-sm text-gray-700">

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useApiKey } from "./CredentialsContext";
 import BackToListLink from "./BackToListLink";
+import { useApiKey } from "./CredentialsContext";
 import { useFromTheme } from "./FromThemeContext";
 import GenerateForm from "./GenerateForm";
 import PageMain from "./PageMain";
-import TabDescription from "./TabDescription";
+import YellowDescription from "./YellowDescription";
 
 function parseListLines(raw: string): string[] {
   return raw
@@ -66,29 +66,70 @@ function GenerationPage() {
   return (
     <PageMain gap={4}>
       <BackToListLink />
-
-      <TabDescription
+      <YellowDescription
         storageKey="opimasin-generation-description-open"
         details={
           <>
-            The sentence to guess will be based on the little input you give.
-            <br />- For example, if you type "family", you might have to find
-            the sentence "Minu perekonnas on neli inimest ja üks koer".
-            <br />- Or if you type "hädas olema", you might get "Ta helistas
-            mulle, kuna oli suures hädas". <br />
-            Generating a sentence will make some requests to Anthropic API.
-            {!apiKey && (
-              <>
-                {" "}
-                Try the demo sentences for free — you'll be asked for an API key
-                only when you generate your own.
-              </>
-            )}
+            The sentence will be based on the theme or word you give. This can
+            be in English or Estonian. There are many ways to use this.
+            <ul className="list-disc list-inside space-y-2 mt-2">
+              <li>
+                with a general theme, like{" "}
+                <ul className="ml-4">
+                  <li className="text-green-700 font-mono">
+                    "food and cooking"
+                  </li>
+                  <li className="text-green-700 font-mono">
+                    "any kind of animal"
+                  </li>
+                  <li className="text-green-700 font-mono">
+                    "any kind of transportation, bus, plane, bike, etc."
+                  </li>
+                </ul>
+              </li>
+              <li>
+                with a specific word that you want to practice, like{" "}
+                <ul className="ml-4">
+                  <li className="text-green-700 font-mono">"helistama"</li>
+                  <li className="text-green-700 font-mono">"ohtlik"</li>
+                  <li className="text-green-700 font-mono">"eraldi"</li>
+                </ul>
+              </li>
+              <li>
+                with a compound expression, for example{" "}
+                <ul className="ml-4">
+                  <li className="text-green-700 font-mono">"hädas olema"</li>
+                  <li className="text-green-700 font-mono">"katki minema"</li>
+                  <li className="text-green-700 font-mono">"lahti tegema"</li>
+                </ul>
+              </li>
+              <li>
+                with a specific sentence structure or grammatical feature :{" "}
+                <ul className="ml-4">
+                  <li className="text-green-700 font-mono">"X kohta"</li>
+                  <li className="text-green-700 font-mono">"X-st aru saama"</li>
+                  <li className="text-green-700 font-mono">"X-ks valmis"</li>
+                  <li className="text-green-700 font-mono">
+                    "nii ... kui ..."
+                  </li>
+                  <li className="text-green-700 font-mono">
+                    "negative past tense"
+                  </li>
+                  <li>etc.</li>
+                </ul>
+              </li>
+            </ul>
+            <br />
+            <br />
+            <br />
+            <b>
+              Generating a sentence will make some requests to Anthropic API.
+            </b>
           </>
         }
       >
-        Generate a translation exercise, English to Estonian.
-      </TabDescription>
+        Generate a sentence for you to translate.
+      </YellowDescription>
 
       {mode === "list" && (
         <p className="text-xs text-gray-500">
