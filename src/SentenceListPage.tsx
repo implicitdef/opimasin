@@ -53,9 +53,9 @@ function SentenceListPage() {
       </TabDescription>
 
       <section className="flex flex-col gap-2">
-        <div className="flex items-center gap-3">
-          <h2 className="text-lg font-bold text-gray-900">Your sentences</h2>
-          {userItems.length > 0 && (
+        {userItems.length > 0 && (
+          <div className="flex items-center gap-3">
+            <h2 className="text-lg font-bold text-gray-900">Your sentences</h2>
             <button
               onClick={clearUserItems}
               className="text-xs text-gray-400 hover:text-red-500 transition-colors"
@@ -63,8 +63,8 @@ function SentenceListPage() {
             >
               Clear all
             </button>
-          )}
-        </div>
+          </div>
+        )}
         <Link
           to="/generate"
           className="self-start text-sm font-semibold text-blue-700 hover:text-blue-800 underline"
