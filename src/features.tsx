@@ -1,5 +1,5 @@
 import { BookOpen, Database, FileSearch, Languages, Video } from "lucide-react";
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 export type FeatureId =
   | "translation"
@@ -19,7 +19,8 @@ export interface Feature {
   /** Link text when another feature's description mentions this one. */
   inTextLabel: string;
   to: string;
-  description: string;
+  /** Text of the feature's card on the welcome page. Can contain JSX. */
+  description: ReactNode;
   icon: ComponentType<{ size?: number; className?: string }>;
   isActive: (pathname: string) => boolean;
   /** Hidden unless owner mode is on (not ready, or only useful to the owner). */

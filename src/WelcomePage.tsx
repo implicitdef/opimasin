@@ -10,14 +10,10 @@ function WelcomePage() {
   return (
     <main className="flex-1 overflow-y-auto px-6 py-8">
       <div className="max-w-3xl mx-auto flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
-          <h2 className="text-3xl font-bold text-gray-900">
-            Learn Estonian with AI
-          </h2>
-          <p className="text-gray-600 max-w-2xl">
+        <div className="flex flex-col gap-2 text-gray-600 max-w-2xl">
+          <p className="">
             A handful of small tools to practice Estonian: translate sentences,
-            drill vocabulary, and pull new words out of any text. Pick a feature
-            below to get started.
+            drill vocabulary, and pull new words out of any text.
           </p>
         </div>
 
@@ -47,11 +43,11 @@ function WelcomePage() {
                         </span>
                       )}
                     </div>
-                    <p
+                    <div
                       className={`text-gray-600 max-w-2xl ${isMain ? "text-base" : "text-sm"}`}
                     >
                       {feature.description}
-                    </p>
+                    </div>
                   </div>
                   <ArrowRight
                     size={18}
