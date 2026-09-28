@@ -30,13 +30,27 @@ export interface Feature {
 export const FEATURES: Feature[] = [
   {
     id: "translation",
-    welcomeCardLabel: "Translation exercise",
+    welcomeCardLabel: "Translation exercise, English to Estonian",
     navLabel: "Translation exercise",
     headerTitle: "Translation exercise",
     inTextLabel: "Translation exercise",
     to: "/translation-exercise",
-    description:
-      "Translate English sentences into Estonian. Super useful. Forces you to actually form sentences, to think a bit about grammar, and helps you letter hints so that it's not too hard.",
+    description: (
+      <>
+        <p className="mb-2">
+          Forces you to actually form sentences, to think a bit about grammar,
+          and helps you with hints so that it stays manageable.{" "}
+          <span className="font-bold">
+            Probably the most useful feature.
+          </span>{" "}
+        </p>
+
+        <p className="text-gray-500 text-sm">
+          (can be tried out with some demo sentences, but requires an Anthropic
+          API key to take full advantage of it)
+        </p>
+      </>
+    ),
     icon: Languages,
     isActive: (path) =>
       path.startsWith("/translation-exercise") ||
@@ -75,8 +89,17 @@ export const FEATURES: Feature[] = [
     headerTitle: "Vocabulary extraction",
     inTextLabel: "Vocabulary extraction",
     to: "/vocab-extract",
-    description:
-      "Given an Estonian text, extracts the key vocabulary, with English translations, ready to paste into a vocabulary spreadsheet.",
+    description: (
+      <>
+        <p className="mb-2">
+          Given an Estonian text, extracts the key vocabulary, with English
+          translations, ready to paste into a vocabulary spreadsheet.
+        </p>
+        <p className="text-gray-500 text-sm">
+          (requires an Anthropic API key obviously)
+        </p>
+      </>
+    ),
     icon: FileSearch,
     isActive: (path) => path.startsWith("/vocab-extract"),
   },

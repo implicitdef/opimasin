@@ -74,7 +74,7 @@ function SentenceListPage() {
               <br />
               <br />
               Generating your own sentences requires an Anthropic API key. It's
-              not free but it's very cheap.
+              not free but it's <b>very</b> cheap.
               <br />
               <br />
               <b>Note :</b> I've found this exercise <b>extremely</b> useful and

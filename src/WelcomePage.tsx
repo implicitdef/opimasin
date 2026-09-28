@@ -11,10 +11,7 @@ function WelcomePage() {
     <main className="flex-1 overflow-y-auto px-6 py-8">
       <div className="max-w-3xl mx-auto flex flex-col gap-8">
         <div className="flex flex-col gap-2 text-gray-600 max-w-2xl">
-          <p className="">
-            A handful of small tools to practice Estonian: translate sentences,
-            drill vocabulary, and pull new words out of any text.
-          </p>
+          <p className="">A handful of tools to practice Estonian.</p>
         </div>
 
         <ul className="border-t border-gray-900">
@@ -24,24 +21,19 @@ function WelcomePage() {
               <li key={feature.to} className="border-b border-gray-200">
                 <Link
                   to={feature.to}
-                  className="group grid grid-cols-[1.5rem_1fr_auto] items-start gap-x-4 px-1 py-5 hover:bg-gray-50 transition-colors"
+                  className="group grid grid-cols-[1.5rem_1fr_auto] items-start gap-x-4 px-1 py-5 transition-colors hover:bg-gray-100"
                 >
                   <feature.icon
-                    size={isMain ? 22 : 18}
-                    className={`shrink-0 text-gray-500 group-hover:text-blue-700 transition-colors ${isMain ? "mt-1" : "mt-0.5"}`}
+                    size={isMain ? 24 : 18}
+                    className={`shrink-0 text-blue-700  transition-colors ${isMain ? "mt-1" : "mt-0.5"}`}
                   />
                   <div className="flex flex-col gap-1 min-w-0">
                     <div className="flex items-baseline gap-3 flex-wrap">
                       <h3
-                        className={`font-semibold text-gray-900 group-hover:text-blue-800 transition-colors ${isMain ? "text-xl" : "text-base"}`}
+                        className={`font-semibold text-blue-700  transition-colors ${isMain ? "text-2xl" : "text-base"}`}
                       >
                         {feature.welcomeCardLabel}
                       </h3>
-                      {isMain && (
-                        <span className="text-xs uppercase tracking-wide text-gray-500">
-                          Main exercise
-                        </span>
-                      )}
                     </div>
                     <div
                       className={`text-gray-600 max-w-2xl ${isMain ? "text-base" : "text-sm"}`}
