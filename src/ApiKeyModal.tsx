@@ -35,6 +35,11 @@ function ApiKeyModal({ onSubmit, onCancel }: Props) {
           submitLabel="Save and generate"
           onSubmit={(values) => onSubmit(values.apiKey)}
         />
+        <p className="text-gray-500 text-xs">
+          <b>All calls go directly from your browser to Anthropic's API</b>.
+          This website is just a static page without a backend server, so your
+          key never reaches me, in any shape or form. <br />.
+        </p>
       </div>
     </div>
   );
