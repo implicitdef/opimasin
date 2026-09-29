@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ExerciseCard from "./ExerciseCard";
 import {
+  isCorrectPrefix,
   joinTokensWithWordValues,
   tokenizeSentence,
   wordTokenTexts,
@@ -8,6 +9,7 @@ import {
 import MaskedSentenceInputs from "./MaskedWordInputs";
 import { solvedSentences, type SentencePair } from "./sentenceSplit";
 import SettingsBox from "./SettingsBox";
+import { playRevealSound } from "./sound";
 import type { SentencePracticeAttempt } from "./types";
 import { usePersistedState } from "./usePersistedState";
 
@@ -146,10 +148,14 @@ function SentenceExercise({
     () => new Set(),
   );
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  // The word the user last focused, so the "Reveal current word" button
+  // knows which one to reveal even after tapping it moved focus away.
+  const currentWordIndexRef = useRef(0);
 
   useEffect(() => {
     setWordValues(wordTexts.map(() => ""));
     setRevealedIndices(new Set());
+    currentWordIndexRef.current = 0;
   }, [targetEstonian]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -166,7 +172,13 @@ function SentenceExercise({
   }
 
   function revealWord(index: number) {
+    const word = wordTexts[index];
+    if (word === undefined) return;
+    if (!isCorrectPrefix(word, wordValues[index] ?? "")) {
+      setWordValues((prev) => prev.map((v, i) => (i === index ? "" : v)));
+    }
     setRevealedIndices((prev) => new Set(prev).add(index));
+    playRevealSound();
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -206,6 +218,9 @@ function SentenceExercise({
           registerInputRef={registerInputRef}
           onFocusWord={focusWord}
           onRevealWord={revealWord}
+          onWordFocused={(index) => {
+            currentWordIndexRef.current = index;
+          }}
         />
         <button
           type="submit"
@@ -216,8 +231,21 @@ function SentenceExercise({
         </button>
       </form>
       <p className="text-xs text-gray-500">
-        Tip: press Ctrl+Enter (Cmd+Enter on Mac) while working on a word to
-        reveal it.
+        <button
+          type="button"
+          // Keep focus (and the mobile keyboard) on the current word input.
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => {
+            const index = currentWordIndexRef.current;
+            revealWord(index);
+            inputRefs.current[index]?.focus();
+          }}
+          className="text-blue-700 underline hover:text-blue-800"
+        >
+          Reveal the current word
+        </button>
+        <br />
+        keyboard shortcut: Ctrl+Enter (Cmd+Enter on a Mac)
       </p>
     </div>
   );

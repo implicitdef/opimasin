@@ -1,10 +1,5 @@
 import { useRef } from "react";
-import {
-  buildMaskedHintParts,
-  isCorrectPrefix,
-  type SentenceToken,
-} from "./maskedHint";
-import { playRevealSound } from "./sound";
+import { buildMaskedHintParts, type SentenceToken } from "./maskedHint";
 
 function maskedHintPartClassName(
   kind: "typed" | "hintLetter" | "punctuation" | "mask",
@@ -28,6 +23,7 @@ function WordInput({
   onFilled,
   onFocusPrev,
   onReveal,
+  onFocus,
   inputRef,
 }: {
   word: string;
@@ -38,6 +34,7 @@ function WordInput({
   onFilled: () => void;
   onFocusPrev: () => void;
   onReveal: () => void;
+  onFocus: () => void;
   inputRef: (el: HTMLInputElement | null) => void;
 }) {
   const parts = buildMaskedHintParts(word, value, revealEndings, revealed);
@@ -62,6 +59,7 @@ function WordInput({
         type="text"
         value={value}
         maxLength={word.length}
+        onFocus={onFocus}
         onCompositionStart={() => {
           isComposingRef.current = true;
         }}
@@ -88,9 +86,7 @@ function WordInput({
           }
           if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
             e.preventDefault();
-            if (!isCorrectPrefix(word, value)) onChange("");
             onReveal();
-            playRevealSound();
           }
         }}
         autoCapitalize="off"
@@ -116,6 +112,7 @@ function MaskedSentenceInputs({
   registerInputRef,
   onFocusWord,
   onRevealWord,
+  onWordFocused,
 }: {
   tokens: SentenceToken[];
   wordValues: string[];
@@ -125,6 +122,7 @@ function MaskedSentenceInputs({
   registerInputRef: (index: number, el: HTMLInputElement | null) => void;
   onFocusWord: (index: number) => void;
   onRevealWord: (index: number) => void;
+  onWordFocused: (index: number) => void;
 }) {
   let wordIndex = -1;
 
@@ -154,6 +152,7 @@ function MaskedSentenceInputs({
             onFilled={() => onFocusWord(index + 1)}
             onFocusPrev={() => onFocusWord(index - 1)}
             onReveal={() => onRevealWord(index)}
+            onFocus={() => onWordFocused(index)}
             inputRef={(el) => registerInputRef(index, el)}
           />
         );
