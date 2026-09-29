@@ -10,15 +10,11 @@
 // one shown in the UI's sentence list (newest first). Duplicate sentences are
 // dropped.
 
-import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
+import { readDemoSentences, writeDemoSentences } from "./demoSentencesFile.mjs";
 
 const HISTORY_KEY = "opimasin-from-theme-v2-history";
 const LEVELS = ["A1", "B1"];
-const TARGET = fileURLToPath(
-  new URL("../src/demoSentences.ts", import.meta.url),
-);
 
 const args = process.argv.slice(2);
 const append = args.includes("--append");
@@ -61,19 +57,7 @@ for (const item of parsed) {
   }
 }
 
-let existing = [];
-if (append) {
-  // Load the current list by evaluating the array literal in the TS file.
-  const source = readFileSync(TARGET, "utf8");
-  const match = source.match(
-    /DEMO_SENTENCES: DemoSentence\[\] = (\[[\s\S]*\]);/,
-  );
-  if (!match) {
-    console.error(`Couldn't find the DEMO_SENTENCES array in ${TARGET}.`);
-    process.exit(1);
-  }
-  existing = new Function(`return ${match[1]}`)();
-}
+const existing = append ? readDemoSentences() : [];
 
 const seen = new Set();
 const demos = [...existing, ...imported].filter((d) => {
@@ -82,37 +66,7 @@ const demos = [...existing, ...imported].filter((d) => {
   return true;
 });
 
-const entries = demos
-  .map(
-    (d) => `  {
-    theme: ${JSON.stringify(d.theme)},
-    level: ${JSON.stringify(d.level)},
-    sentence: ${JSON.stringify(d.sentence)},
-    englishTranslation: ${JSON.stringify(d.englishTranslation)},
-  },`,
-  )
-  .join("\n");
-
-writeFileSync(
-  TARGET,
-  `import type { SentenceLevel } from "./types";
-
-export interface DemoSentence {
-  theme: string;
-  level: SentenceLevel;
-  sentence: string;
-  englishTranslation: string;
-}
-
-// Generated with scripts/import-demo-sentences.mjs, but can be edited by hand.
-// No need to fill in anything beyond these four fields, everything else (id,
-// attempts, status, ...) is derived.
-export const DEMO_SENTENCES: DemoSentence[] = [
-${entries}
-];
-`,
-);
-execFileSync("npx", ["prettier", "--write", TARGET], { stdio: "ignore" });
+writeDemoSentences(demos);
 
 console.log(
   `Wrote ${demos.length} demo sentences to src/demoSentences.ts ` +

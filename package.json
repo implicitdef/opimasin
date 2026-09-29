@@ -11,7 +11,8 @@
     "checktypes": "tsc -b --noEmit",
     "pretty": "prettier --write .",
     "pretty-check": "prettier --check .",
-    "import-demo": "node scripts/import-demo-sentences.mjs"
+    "import-demo": "node scripts/import-demo-sentences.mjs",
+    "reverse-demo": "node scripts/reverse-demo-sentences.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "latest",
