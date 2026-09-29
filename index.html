@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Õpimasin</title>
+    <script>
+      window.goatcounter = { no_onload: true };
+      window.addEventListener("hashchange", function (e) {
+        window.goatcounter.count({
+          path: location.pathname + location.search + location.hash,
+        });
+      });
+    </script>
+    <script
+      data-goatcounter="https://implicitdef.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
   </head>
   <body>
     <div id="root"></div>
