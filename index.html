@@ -6,12 +6,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Õpimasin</title>
     <script>
+      // Page views are counted from the router (see src/goatcounter.ts).
       window.goatcounter = { no_onload: true };
-      window.addEventListener("hashchange", function (e) {
-        window.goatcounter.count({
-          path: location.pathname + location.search + location.hash,
-        });
-      });
     </script>
     <script
       data-goatcounter="https://implicitdef.goatcounter.com/count"

@@ -14,6 +14,7 @@ import VideoMode from "./VideoMode";
 import IngestMode from "./IngestMode";
 import VocabExtractPage from "./VocabExtractPage";
 import BaserowVocabPage from "./BaserowVocabPage";
+import { countPageview } from "./goatcounter";
 
 const rootRoute = createRootRoute({ component: RootLayout });
 
@@ -87,6 +88,16 @@ const routeTree = rootRoute.addChildren([
 export const router = createRouter({
   routeTree,
   history: createHashHistory(),
+});
+
+// One page view per route change, grouped by route pattern (e.g.
+// "/sentence/$id") rather than by concrete URL. Search-param-only changes
+// are not counted.
+router.subscribe("onResolved", ({ pathChanged }) => {
+  if (!pathChanged) return;
+  const matches = router.state.matches;
+  const leaf = matches[matches.length - 1];
+  countPageview("/opimasin/#" + (leaf?.fullPath ?? "/"));
 });
 
 declare module "@tanstack/react-router" {
