@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import ContactEmail from "./ContactEmail";
 import { visibleFeatures } from "./features";
 import FoldableText from "./FoldableText";
 import { useOwnerMode } from "./OwnerModeContext";
@@ -32,6 +33,9 @@ function WelcomePage() {
                 <p>
                   There is no account creation on this app, everything is stored
                   in the local storage of your browser.
+                </p>
+                <p className="text-right">
+                  <ContactEmail />
                 </p>
               </div>
             }
