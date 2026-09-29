@@ -12,10 +12,10 @@ export interface DemoSentence {
 // attempts, status, ...) is derived.
 export const DEMO_SENTENCES: DemoSentence[] = [
   {
-    theme: "negative past tense",
+    theme: "nii ... kui ...",
     level: "A1",
-    sentence: "Ma ei käinud eile koolis.",
-    englishTranslation: "I didn't go to school yesterday.",
+    sentence: "Mulle meeldib nii tee kui kohv.",
+    englishTranslation: "I like both tea and coffee.",
   },
   {
     theme: "past tense",
@@ -23,11 +23,12 @@ export const DEMO_SENTENCES: DemoSentence[] = [
     sentence: "Eile käisin ma poes leiba ostmas.",
     englishTranslation: "Yesterday I went to the store to buy bread.",
   },
+
   {
-    theme: "nii ... kui ...",
+    theme: "imperative",
     level: "A1",
-    sentence: "Mulle meeldib nii tee kui kohv.",
-    englishTranslation: "I like both tea and coffee.",
+    sentence: "Palun sulge uks kohe.",
+    englishTranslation: "Please close the door immediately.",
   },
   {
     theme: "negative",
@@ -36,10 +37,10 @@ export const DEMO_SENTENCES: DemoSentence[] = [
     englishTranslation: "I am in a very bad mood today.",
   },
   {
-    theme: "imperative",
+    theme: "negative past tense",
     level: "A1",
-    sentence: "Palun sulge uks kohe.",
-    englishTranslation: "Please close the door immediately.",
+    sentence: "Ma ei käinud eile koolis.",
+    englishTranslation: "I didn't go to school yesterday.",
   },
   {
     theme: "kauplus OR pood",
