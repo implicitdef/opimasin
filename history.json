@@ -1,0 +1,52 @@
+[
+  {
+    "id": "9f329f28-2172-4feb-96f2-a6b7d9c1046b",
+    "theme": "imperative",
+    "sentence": "Palun sulge uks kohe.",
+    "englishTranslation": "Please close the door immediately.",
+    "attempts": [],
+    "status": "in_progress",
+    "createdAt": 1790671316819,
+    "level": "A1"
+  },
+  {
+    "id": "5ffee195-b5ce-44bf-b325-5f90d5900098",
+    "theme": "negative",
+    "sentence": "Mul on täna väga halb tuju.",
+    "englishTranslation": "I am in a very bad mood today.",
+    "attempts": [],
+    "status": "in_progress",
+    "createdAt": 1790671316818,
+    "level": "A1"
+  },
+  {
+    "id": "c3df638a-7ba6-48a3-91c1-f647678629b0",
+    "theme": "nii ... kui ...",
+    "sentence": "Mulle meeldib nii tee kui kohv.",
+    "englishTranslation": "I like both tea and coffee.",
+    "attempts": [],
+    "status": "in_progress",
+    "createdAt": 1790671316817,
+    "level": "A1"
+  },
+  {
+    "id": "980336de-e001-40bb-af71-8e763f710e29",
+    "theme": "past tense",
+    "sentence": "Eile käisin ma poes leiba ostmas.",
+    "englishTranslation": "Yesterday I went to the store to buy bread.",
+    "attempts": [],
+    "status": "in_progress",
+    "createdAt": 1790671316816,
+    "level": "A1"
+  },
+  {
+    "id": "cc691f67-b97c-46b2-9959-c2b59349ed2d",
+    "theme": "negative past tense",
+    "sentence": "Ma ei käinud eile koolis.",
+    "englishTranslation": "I didn't go to school yesterday.",
+    "attempts": [],
+    "status": "in_progress",
+    "createdAt": 1790671316815,
+    "level": "A1"
+  }
+]
