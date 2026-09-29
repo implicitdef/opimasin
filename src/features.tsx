@@ -39,10 +39,8 @@ export const FEATURES: Feature[] = [
       <>
         <p className="mb-2">
           Forces you to actually form sentences, to think a bit about grammar,
-          and helps you with hints so that it stays manageable.{" "}
-          <span className="font-bold">
-            Probably the most useful feature.
-          </span>{" "}
+          and helps you with hints so that it stays manageable. Probably the
+          most useful feature.
         </p>
 
         <p className="text-gray-500 text-sm">

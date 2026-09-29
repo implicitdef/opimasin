@@ -68,7 +68,7 @@ function SentenceListPage() {
                 The demo sentences are useful to get a feel for how it works.
                 <br />
                 But the exercise really shines when you generate your own
-                sentences, and thus work on exactly the vocabulary or type of
+                sentences, and thus practice exactly the vocabulary or type of
                 sentences you're interesting in.
               </span>
               <br />

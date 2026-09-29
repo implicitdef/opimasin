@@ -89,7 +89,7 @@ function FromThemeProvider() {
   });
   const [level, setLevel] = useState<SentenceLevel>(() => {
     const stored = localStorage.getItem(LEVEL_KEY);
-    return stored === "A1" || stored === "B1" ? stored : "B1";
+    return stored === "A1" || stored === "B1" ? stored : "A1";
   });
   const [generatingSource, setGeneratingSource] =
     useState<GeneratingSource>(null);
