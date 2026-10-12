@@ -68,3 +68,34 @@ export interface VocabList {
   correctIndices: number[];
   failedIndices: number[];
 }
+
+export interface AliasProposal {
+  correction: string;
+  // Short English explanation; may be empty when the fix is self-evident.
+  explanation: string;
+}
+
+export interface AliasRejectedAttempt {
+  text: string;
+  proposals: AliasProposal[];
+}
+
+export interface AliasTurn {
+  message: string;
+  // Absent while the guesser call is pending, or if it failed.
+  guess?: string;
+}
+
+export interface AliasGame {
+  id: string;
+  rowId: number;
+  estonian: string;
+  english: string;
+  createdAt: number;
+  status: "in_progress" | "won";
+  // Only accepted messages, each with the guess that followed it.
+  turns: AliasTurn[];
+  // Rejected attempts at the message currently being written. Cleared once
+  // an attempt is accepted, as if it had been written right the first time.
+  rejected: AliasRejectedAttempt[];
+}

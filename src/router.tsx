@@ -14,6 +14,9 @@ import VideoMode from "./VideoMode";
 import IngestMode from "./IngestMode";
 import VocabExtractPage from "./VocabExtractPage";
 import BaserowVocabPage from "./BaserowVocabPage";
+import AliasProvider from "./AliasContext";
+import AliasListPage from "./AliasListPage";
+import AliasGamePage from "./AliasGamePage";
 import { countPageview } from "./goatcounter";
 
 const rootRoute = createRootRoute({ component: RootLayout });
@@ -72,6 +75,24 @@ const baserowVocabRoute = createRoute({
   component: BaserowVocabPage,
 });
 
+const aliasLayoutRoute = createRoute({
+  id: "aliasLayout",
+  getParentRoute: () => rootRoute,
+  component: AliasProvider,
+});
+
+const aliasListRoute = createRoute({
+  getParentRoute: () => aliasLayoutRoute,
+  path: "/alias",
+  component: AliasListPage,
+});
+
+const aliasGameRoute = createRoute({
+  getParentRoute: () => aliasLayoutRoute,
+  path: "/alias/$id",
+  component: AliasGamePage,
+});
+
 const routeTree = rootRoute.addChildren([
   welcomeRoute,
   fromThemeLayoutRoute.addChildren([
@@ -83,6 +104,7 @@ const routeTree = rootRoute.addChildren([
   ingestRoute,
   vocabExtractRoute,
   baserowVocabRoute,
+  aliasLayoutRoute.addChildren([aliasListRoute, aliasGameRoute]),
 ]);
 
 export const router = createRouter({

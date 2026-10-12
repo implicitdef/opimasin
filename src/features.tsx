@@ -1,4 +1,11 @@
-import { BookOpen, Database, FileSearch, Languages, Video } from "lucide-react";
+import {
+  BookOpen,
+  Database,
+  FileSearch,
+  Languages,
+  MessageCircleQuestion,
+  Video,
+} from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
 
 export type FeatureId =
@@ -6,7 +13,8 @@ export type FeatureId =
   | "vocabPractice"
   | "video"
   | "vocabExtract"
-  | "baserow";
+  | "baserow"
+  | "alias";
 
 export interface Feature {
   id: FeatureId;
@@ -112,6 +120,19 @@ export const FEATURES: Feature[] = [
       "Paste new vocabulary and add it to your Baserow vocabulary table, choosing which translation to keep for words that are already there.",
     icon: Database,
     isActive: (path) => path.startsWith("/baserow-vocab"),
+    ownerOnly: true,
+  },
+  {
+    id: "alias",
+    welcomeCardLabel: "Alias game",
+    navLabel: "Alias game",
+    headerTitle: "Alias game",
+    inTextLabel: "Alias game",
+    to: "/alias",
+    description:
+      "Describe a random word from your Baserow vocabulary table, in Estonian, until the AI guesses it. Your messages must be correct before they count.",
+    icon: MessageCircleQuestion,
+    isActive: (path) => path.startsWith("/alias"),
     ownerOnly: true,
   },
 ];
