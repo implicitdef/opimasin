@@ -2,9 +2,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import { MODEL, responseText } from "./anthropic-response";
 import type { AliasProposal, AliasTurn } from "./types";
 
-const CHECK_SYSTEM_PROMPT = `You are an expert Estonian language teacher. Your student is playing an "alias" game: they describe a secret Estonian word in Estonian, one message at a time, so that someone else can guess it. The other player answers each message with a one-word guess.
+const CHECK_SYSTEM_PROMPT = `You are an expert Estonian language teacher. Your student is playing an "alias" game: they write short Estonian hints describing a hidden word, so that someone else can guess it. A hint may be a fragment rather than a full sentence (e.g. "Loom, kes haugub."), which is fine.
 
-You will receive the conversation so far, then the student's new message. Check ONLY the new message (the earlier ones are just context).
+You will receive one of the student's hints. Check whether it is correct Estonian.
 
 The message is incorrect if it has grammar mistakes (wrong case, conjugation, agreement, word order that changes the meaning…), spelling mistakes, or makes no sense (e.g. the student confused two words, or used a word that doesn't exist). Be lenient on style: a message that is correct but slightly unnatural is acceptable. Do not judge whether the description is a good hint.
 
@@ -30,7 +30,6 @@ function transcript(turns: AliasTurn[]): string {
 }
 
 export async function checkAliasMessage(
-  turns: AliasTurn[],
   message: string,
   apiKey: string,
 ): Promise<{ isCorrect: boolean; proposals: AliasProposal[] }> {
@@ -43,7 +42,7 @@ export async function checkAliasMessage(
     messages: [
       {
         role: "user",
-        content: `Conversation so far:\n${transcript(turns)}\n\nNew message to check:\n${message}`,
+        content: `Message to check:\n${message}`,
       },
     ],
     output_config: {

@@ -143,7 +143,7 @@ function AliasProvider() {
     setGameError(game.id, undefined);
     let result;
     try {
-      result = await checkAliasMessage(game.turns, text, key);
+      result = await checkAliasMessage(text, key);
     } catch (err) {
       setGameError(
         game.id,
