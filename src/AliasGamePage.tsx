@@ -82,8 +82,7 @@ function RejectedAttempt({
 
 function AliasGamePage() {
   const { id } = useParams({ from: "/aliasLayout/alias/$id" });
-  const { findGame, busy, errors, submitMessage, retryGuess, markWon } =
-    useAlias();
+  const { findGame, busy, errors, submitMessage, retryGuess } = useAlias();
   const [draft, setDraft] = useState("");
   const game = findGame(id);
 
@@ -130,14 +129,6 @@ function AliasGamePage() {
               <UserBubble>{turn.message}</UserBubble>
               {turn.guess !== undefined && (
                 <GuessBubble guess={turn.guess} correct={won && isLast} />
-              )}
-              {isLast && !won && turn.guess !== undefined && (
-                <button
-                  onClick={() => markWon(game.id)}
-                  className="self-start text-xs text-gray-500 hover:text-green-700 underline transition-colors"
-                >
-                  Actually that's right
-                </button>
               )}
             </div>
           );

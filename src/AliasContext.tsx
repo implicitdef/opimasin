@@ -30,7 +30,6 @@ interface AliasContextValue {
   /** Resolves to true once the message has been checked (accepted or not). */
   submitMessage: (id: string, text: string) => Promise<boolean>;
   retryGuess: (id: string) => void;
-  markWon: (id: string) => void;
   clearGames: () => void;
 }
 
@@ -184,11 +183,6 @@ function AliasProvider() {
     withApiKey((key) => runGuess(game, game.turns, key));
   }
 
-  function markWon(id: string) {
-    playCorrectSound();
-    updateGame(id, (g) => ({ ...g, status: "won" }));
-  }
-
   function clearGames() {
     setGames([]);
   }
@@ -204,7 +198,6 @@ function AliasProvider() {
         errors,
         submitMessage,
         retryGuess,
-        markWon,
         clearGames,
       }}
     >
