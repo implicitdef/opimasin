@@ -5,6 +5,7 @@ import { isCorrectGuess, pickUnplayedRow } from "./aliasGame";
 import ApiKeyModal from "./ApiKeyModal";
 import { fetchAllRows } from "./baserow-api";
 import { useApiKey, useCredential } from "./CredentialsContext";
+import { playCorrectSound, playIncorrectSound, playRevealSound } from "./sound";
 import type { AliasGame, AliasTurn } from "./types";
 import { usePersistedState } from "./usePersistedState";
 
@@ -121,6 +122,8 @@ function AliasProvider() {
     try {
       const guess = await guessAliasWord(turns, key);
       const won = isCorrectGuess(guess, game.estonian);
+      if (won) playCorrectSound();
+      else playRevealSound();
       updateGame(game.id, (g) => ({
         ...g,
         status: won ? "won" : g.status,
@@ -150,6 +153,7 @@ function AliasProvider() {
       return false;
     }
     if (!result.isCorrect) {
+      playIncorrectSound();
       updateGame(game.id, (g) => ({
         ...g,
         rejected: [...g.rejected, { text, proposals: result.proposals }],
@@ -181,6 +185,7 @@ function AliasProvider() {
   }
 
   function markWon(id: string) {
+    playCorrectSound();
     updateGame(id, (g) => ({ ...g, status: "won" }));
   }
 
