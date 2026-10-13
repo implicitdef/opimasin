@@ -53,6 +53,7 @@ function MultipleChoiceStep({
   optionCount,
   onCorrect,
   onWrongAttempt,
+  onGiveUp,
 }: {
   correct: string;
   optionPool: VocabPair[];
@@ -60,16 +61,27 @@ function MultipleChoiceStep({
   optionCount: number;
   onCorrect: (isFirstTry: boolean) => void;
   onWrongAttempt: () => void;
+  onGiveUp: () => void;
 }) {
   const [wrongOptions, setWrongOptions] = useState<Set<string>>(new Set());
   const [answeredCorrectly, setAnsweredCorrectly] = useState(false);
+  const [gaveUp, setGaveUp] = useState(false);
+  // Either way the correct answer is revealed and no more picks are allowed.
+  const resolved = answeredCorrectly || gaveUp;
   const options = useMemo(
     () => buildOptions(correct, optionPool, field, optionCount),
     [correct, optionPool, field, optionCount],
   );
 
+  function handleGiveUp() {
+    if (resolved) return;
+    setGaveUp(true);
+    playIncorrectSound();
+    onGiveUp();
+  }
+
   function handleSelect(option: string) {
-    if (answeredCorrectly || wrongOptions.has(option)) return;
+    if (resolved || wrongOptions.has(option)) return;
     if (option.toLowerCase() === correct.toLowerCase()) {
       setAnsweredCorrectly(true);
       const isFirstTry = wrongOptions.size === 0;
@@ -83,17 +95,26 @@ function MultipleChoiceStep({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-      {options.map((option) => (
-        <button
-          key={option}
-          onClick={() => handleSelect(option)}
-          disabled={answeredCorrectly || wrongOptions.has(option)}
-          className={`border rounded-lg px-4 py-2.5 text-sm text-left transition-colors disabled:cursor-default ${optionClassName(option, wrongOptions, answeredCorrectly, correct)}`}
-        >
-          {option}
-        </button>
-      ))}
+    <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {options.map((option) => (
+          <button
+            key={option}
+            onClick={() => handleSelect(option)}
+            disabled={resolved || wrongOptions.has(option)}
+            className={`border rounded-lg px-4 py-2.5 text-sm text-left transition-colors disabled:cursor-default ${optionClassName(option, wrongOptions, resolved, correct)}`}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+      <button
+        onClick={handleGiveUp}
+        disabled={resolved}
+        className="self-center text-xs text-gray-400 hover:text-gray-700 transition-colors disabled:invisible"
+      >
+        I don't know
+      </button>
     </div>
   );
 }
@@ -111,6 +132,7 @@ function IngestPractice({
   const [step, setStep] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [advancePending, setAdvancePending] = useState(false);
+  const [advanceDelay, setAdvanceDelay] = useState(500);
 
   const pairIndex = order[step];
   const current = quizPairs[pairIndex];
@@ -125,6 +147,14 @@ function IngestPractice({
   function handleCorrect(isFirstTry: boolean) {
     handleAnswer(isFirstTry);
     if (isFirstTry) setCorrectCount((c) => c + 1);
+    setAdvanceDelay(500);
+    setAdvancePending(true);
+  }
+
+  function handleGiveUp() {
+    handleAnswer(false);
+    // Linger longer so the revealed correct answer can be read.
+    setAdvanceDelay(1500);
     setAdvancePending(true);
   }
 
@@ -137,9 +167,9 @@ function IngestPractice({
       }
       setStep((s) => s + 1);
       setAdvancePending(false);
-    }, 500);
+    }, advanceDelay);
     return () => clearTimeout(timer);
-  }, [advancePending, isLast, onComplete]);
+  }, [advancePending, advanceDelay, isLast, onComplete]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -172,6 +202,7 @@ function IngestPractice({
         field={reversed ? "estonian" : "english"}
         optionCount={optionCountForDifficulty(difficulty)}
         onCorrect={handleCorrect}
+        onGiveUp={handleGiveUp}
       />
     </div>
   );
