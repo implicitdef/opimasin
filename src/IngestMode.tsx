@@ -242,6 +242,7 @@ function IngestListCard({
   onRename,
   onRemove,
   onPractice,
+  onCopyMissed,
 }: {
   list: VocabList;
   pregenerated: boolean;
@@ -250,7 +251,15 @@ function IngestListCard({
   onRename?: (name: string) => void;
   onRemove?: () => void;
   onPractice: (indices: number[], resetStats: boolean) => void;
+  onCopyMissed: () => void;
 }) {
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (!copied) return;
+    const timer = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
   const correctCount = list.correctIndices.length;
   const failedCount = list.failedIndices.length;
   const answeredCount = correctCount + failedCount;
@@ -363,6 +372,20 @@ function IngestListCard({
           )}
         </div>
       )}
+      {failedCount > 0 && (
+        <button
+          onClick={() => {
+            onCopyMissed();
+            setCopied(true);
+          }}
+          disabled={copied}
+          className="self-start text-xs text-gray-500 hover:text-gray-800 underline transition-colors disabled:no-underline disabled:cursor-default"
+        >
+          {copied
+            ? "✓ Copied into a new list at the top"
+            : `Copy the ${failedCount} missed word${failedCount === 1 ? "" : "s"} into a separate list`}
+        </button>
+      )}
     </div>
   );
 }
@@ -413,6 +436,18 @@ function IngestMode() {
     }));
     setLists((prev) => [...next, ...prev]);
     setShowPasteForm(false);
+  }
+
+  function copyMissedWords(list: VocabList) {
+    addLists([
+      {
+        name: `${list.name} – missed words`,
+        // failedIndices is in answer order; keep the original list's order.
+        pairs: [...list.failedIndices]
+          .sort((a, b) => a - b)
+          .map((i) => list.pairs[i]),
+      },
+    ]);
   }
 
   function renameList(id: string, name: string) {
@@ -584,6 +619,7 @@ function IngestMode() {
               onPractice={(indices, resetStats) =>
                 startPractice(list.id, indices, resetStats)
               }
+              onCopyMissed={() => copyMissedWords(list)}
             />
           ))}
           {pregeneratedLists.map((list) => (
@@ -595,6 +631,7 @@ function IngestMode() {
               onPractice={(indices, resetStats) =>
                 startPractice(list.id, indices, resetStats)
               }
+              onCopyMissed={() => copyMissedWords(list)}
             />
           ))}
         </div>
