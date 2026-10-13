@@ -60,4 +60,32 @@ function SettingsBox({
   );
 }
 
+export function SettingCheckbox({
+  checked,
+  onChange,
+  label,
+  description,
+}: {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label: string;
+  description: string;
+}) {
+  return (
+    <div className="flex flex-col gap-0.5">
+      <label className="flex items-center gap-2 text-sm text-gray-700">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="h-4 w-4 accent-blue-700"
+        />
+        {label}
+      </label>
+      {/* Indented to line up with the label text, past the checkbox. */}
+      <p className="pl-6 text-xs italic text-gray-500">{description}</p>
+    </div>
+  );
+}
+
 export default SettingsBox;

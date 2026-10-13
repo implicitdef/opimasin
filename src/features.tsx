@@ -130,7 +130,7 @@ export const FEATURES: Feature[] = [
     inTextLabel: "Alias game",
     to: "/alias",
     description:
-      "Describe a random word from your Baserow vocabulary table, in Estonian, until the AI guesses it. Your messages must be correct before they count.",
+      "Describe a random word from your Baserow vocabulary table, in Estonian, until the AI guesses it. Optionally, your messages must be correct before they count.",
     icon: MessageCircleQuestion,
     isActive: (path) => path.startsWith("/alias"),
     ownerOnly: true,

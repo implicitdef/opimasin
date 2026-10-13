@@ -27,8 +27,11 @@ interface AliasContextValue {
   // In-memory only: what's running / what failed, per game id.
   busy: Record<string, AliasBusy | undefined>;
   errors: Record<string, string | undefined>;
-  /** Resolves to true once the message has been checked (accepted or not). */
-  submitMessage: (id: string, text: string) => Promise<boolean>;
+  /**
+   * Resolves to true once the message has been accepted or rejected. When
+   * `check` is false, it's sent to the guesser without a correctness check.
+   */
+  submitMessage: (id: string, text: string, check: boolean) => Promise<boolean>;
   retryGuess: (id: string) => void;
   clearGames: () => void;
 }
@@ -137,28 +140,35 @@ function AliasProvider() {
     }
   }
 
-  async function runSubmit(game: AliasGame, text: string, key: string) {
-    setGameBusy(game.id, "checking");
-    setGameError(game.id, undefined);
-    let result;
-    try {
-      result = await checkAliasMessage(text, key);
-    } catch (err) {
-      setGameError(
-        game.id,
-        `Couldn't check your message: ${errorMessage(err)}`,
-      );
-      setGameBusy(game.id, undefined);
-      return false;
-    }
-    if (!result.isCorrect) {
-      playIncorrectSound();
-      updateGame(game.id, (g) => ({
-        ...g,
-        rejected: [...g.rejected, { text, proposals: result.proposals }],
-      }));
-      setGameBusy(game.id, undefined);
-      return true;
+  async function runSubmit(
+    game: AliasGame,
+    text: string,
+    key: string,
+    check: boolean,
+  ) {
+    if (check) {
+      setGameBusy(game.id, "checking");
+      setGameError(game.id, undefined);
+      let result;
+      try {
+        result = await checkAliasMessage(text, key);
+      } catch (err) {
+        setGameError(
+          game.id,
+          `Couldn't check your message: ${errorMessage(err)}`,
+        );
+        setGameBusy(game.id, undefined);
+        return false;
+      }
+      if (!result.isCorrect) {
+        playIncorrectSound();
+        updateGame(game.id, (g) => ({
+          ...g,
+          rejected: [...g.rejected, { text, proposals: result.proposals }],
+        }));
+        setGameBusy(game.id, undefined);
+        return true;
+      }
     }
     const turns = [...game.turns, { message: text }];
     updateGame(game.id, (g) => ({ ...g, turns, rejected: [] }));
@@ -166,14 +176,18 @@ function AliasProvider() {
     return true;
   }
 
-  function submitMessage(id: string, text: string): Promise<boolean> {
+  function submitMessage(
+    id: string,
+    text: string,
+    check: boolean,
+  ): Promise<boolean> {
     const game = findGame(id);
     const trimmed = text.trim();
     if (!game || !trimmed || busy[id] || game.status === "won") {
       return Promise.resolve(false);
     }
     return new Promise((resolve) =>
-      withApiKey((key) => runSubmit(game, trimmed, key).then(resolve)),
+      withApiKey((key) => runSubmit(game, trimmed, key, check).then(resolve)),
     );
   }
 

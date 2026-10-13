@@ -16,6 +16,8 @@ const GUESS_SYSTEM_PROMPT = `You are playing an "alias" game in Estonian. The ot
 
 Your guess must be a single Estonian word (or a fixed multi-word expression, if that's clearly what is described), in its dictionary form: nominative singular for nouns and adjectives, the -ma infinitive for verbs. Nothing else: no explanation, no punctuation.
 
+The descriptions are written by a learner of Estonian and may contain spelling or grammar mistakes, or wrong or made-up words. Interpret them charitably and work out what they most likely meant.
+
 Use all the descriptions given so far. Never repeat one of your previous guesses — they were all wrong.`;
 
 function transcript(turns: AliasTurn[]): string {

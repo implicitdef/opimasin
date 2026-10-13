@@ -4,7 +4,11 @@ import { useState } from "react";
 import { useAlias } from "./AliasContext";
 import ExerciseCard from "./ExerciseCard";
 import PageMain from "./PageMain";
+import SettingsBox, { SettingCheckbox } from "./SettingsBox";
 import type { AliasRejectedAttempt } from "./types";
+import { usePersistedState } from "./usePersistedState";
+
+const CHECK_MESSAGES_KEY = "opimasin-alias-check-messages";
 
 function BackLink() {
   return (
@@ -84,6 +88,10 @@ function AliasGamePage() {
   const { id } = useParams({ from: "/aliasLayout/alias/$id" });
   const { findGame, busy, errors, submitMessage, retryGuess } = useAlias();
   const [draft, setDraft] = useState("");
+  const [checkMessages, setCheckMessages] = usePersistedState(
+    CHECK_MESSAGES_KEY,
+    true,
+  );
   const game = findGame(id);
 
   if (!game) {
@@ -103,13 +111,21 @@ function AliasGamePage() {
 
   async function handleSubmit() {
     if (!game) return;
-    const checked = await submitMessage(game.id, draft);
+    const checked = await submitMessage(game.id, draft, checkMessages);
     if (checked) setDraft("");
   }
 
   return (
     <PageMain gap={4}>
       <BackLink />
+      <SettingsBox storageKey="opimasin-alias-settings-open" stacked>
+        <SettingCheckbox
+          checked={checkMessages}
+          onChange={setCheckMessages}
+          label="Check your messages for correctness"
+          description="Check that your messages are correct estonian, and force you to correct them"
+        />
+      </SettingsBox>
       <ExerciseCard
         heading={
           <span className="text-sm text-gray-700">
