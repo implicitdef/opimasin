@@ -33,6 +33,8 @@ interface AliasContextValue {
    */
   submitMessage: (id: string, text: string, check: boolean) => Promise<boolean>;
   retryGuess: (id: string) => void;
+  /** Discards the whole conversation, to start the word over. */
+  resetGame: (id: string) => void;
   clearGames: () => void;
 }
 
@@ -197,6 +199,17 @@ function AliasProvider() {
     withApiKey((key) => runGuess(game, game.turns, key));
   }
 
+  function resetGame(id: string) {
+    if (busy[id]) return;
+    updateGame(id, (g) => ({
+      ...g,
+      status: "in_progress",
+      turns: [],
+      rejected: [],
+    }));
+    setGameError(id, undefined);
+  }
+
   function clearGames() {
     setGames([]);
   }
@@ -212,6 +225,7 @@ function AliasProvider() {
         errors,
         submitMessage,
         retryGuess,
+        resetGame,
         clearGames,
       }}
     >

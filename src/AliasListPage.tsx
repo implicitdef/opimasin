@@ -16,9 +16,10 @@ function AliasListPage() {
     <PageMain gap={4}>
       <YellowDescription>
         Alias game. Describe the Estonian word, in Estonian, without saying it,
-        until the AI guesses it. Each of your messages is checked first, and
-        must be correct before the AI makes its guess. Words are picked at
-        random from your Baserow vocabulary table, never the same one twice.
+        until the AI guesses it. Optionally (see the settings while playing),
+        each of your messages is checked first, and must be correct before the
+        AI makes its guess. Words are picked at random from your Baserow
+        vocabulary table, never the same one twice.
       </YellowDescription>
 
       {!baserow.isSet ? (

@@ -1,5 +1,5 @@
 import { Link, useParams } from "@tanstack/react-router";
-import { Check, CircleAlert, RefreshCcw, X } from "lucide-react";
+import { Check, CircleAlert, RefreshCcw, RotateCcw, X } from "lucide-react";
 import { useState } from "react";
 import { useAlias } from "./AliasContext";
 import ExerciseCard from "./ExerciseCard";
@@ -84,9 +84,34 @@ function RejectedAttempt({
   );
 }
 
+function StartOverButton({
+  onReset,
+  disabled,
+}: {
+  onReset: () => void;
+  disabled: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        if (confirm("Start over? Your whole conversation will be discarded."))
+          onReset();
+      }}
+      disabled={disabled}
+      className="ml-auto flex items-center gap-1 text-xs text-gray-500 hover:text-red-500 transition-colors underline disabled:opacity-40 disabled:cursor-not-allowed"
+      title="Discard the whole conversation and start this word over"
+    >
+      <RotateCcw size={12} />
+      Start over
+    </button>
+  );
+}
+
 function AliasGamePage() {
   const { id } = useParams({ from: "/aliasLayout/alias/$id" });
-  const { findGame, busy, errors, submitMessage, retryGuess } = useAlias();
+  const { findGame, busy, errors, submitMessage, retryGuess, resetGame } =
+    useAlias();
   const [draft, setDraft] = useState("");
   const [checkMessages, setCheckMessages] = usePersistedState(
     CHECK_MESSAGES_KEY,
@@ -108,6 +133,11 @@ function AliasGamePage() {
   const won = game.status === "won";
   const lastTurn = game.turns[game.turns.length - 1];
   const missingGuess = lastTurn !== undefined && lastTurn.guess === undefined;
+
+  const hasConversation = game.turns.length > 0 || game.rejected.length > 0;
+  const startOver = hasConversation && (
+    <StartOverButton onReset={() => resetGame(game.id)} disabled={!!gameBusy} />
+  );
 
   async function handleSubmit() {
     if (!game) return;
@@ -177,11 +207,14 @@ function AliasGamePage() {
       </div>
 
       {won ? (
-        <p className="flex items-center gap-1.5 font-semibold text-green-700">
-          <Check size={18} strokeWidth={4} />
-          Guessed in {game.turns.length}{" "}
-          {game.turns.length === 1 ? "message" : "messages"}!
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="flex items-center gap-1.5 font-semibold text-green-700">
+            <Check size={18} strokeWidth={4} />
+            Guessed in {game.turns.length}{" "}
+            {game.turns.length === 1 ? "message" : "messages"}!
+          </p>
+          {startOver}
+        </div>
       ) : (
         <form
           onSubmit={(e) => {
@@ -225,6 +258,7 @@ function AliasGamePage() {
                 Checking your message…
               </span>
             )}
+            {startOver}
           </div>
         </form>
       )}
