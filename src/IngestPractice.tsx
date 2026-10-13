@@ -119,6 +119,91 @@ function MultipleChoiceStep({
   );
 }
 
+const flashcardButtonClassName =
+  "flex-1 min-w-32 border rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors";
+const failButtonClassName = `${flashcardButtonClassName} border-red-300 bg-red-50 text-red-700 hover:bg-red-100`;
+const neutralButtonClassName = `${flashcardButtonClassName} border-gray-300 text-gray-700 hover:border-blue-400 hover:bg-blue-50`;
+const succeedButtonClassName = `${flashcardButtonClassName} border-green-300 bg-green-50 text-green-700 hover:bg-green-100`;
+
+function FlashcardStep({
+  answer,
+  onResult,
+}: {
+  answer: string;
+  // `delayMs` is how long to linger on the revealed answer before moving on.
+  onResult: (correct: boolean, delayMs: number) => void;
+}) {
+  // "revealed": graded right away, waiting to move on. "unsure": answer shown
+  // on request, waiting for the user to grade themselves.
+  const [phase, setPhase] = useState<"hidden" | "revealed" | "unsure">(
+    "hidden",
+  );
+
+  function grade(correct: boolean, delayMs: number) {
+    if (correct) playCorrectSound();
+    else playIncorrectSound();
+    onResult(correct, delayMs);
+  }
+
+  function handleImmediate(correct: boolean) {
+    setPhase("revealed");
+    grade(correct, 1200);
+  }
+
+  function handleUnsureGrade(correct: boolean) {
+    setPhase("revealed");
+    grade(correct, 300);
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      <p
+        className={`text-center text-2xl font-semibold text-green-700 ${phase === "hidden" ? "invisible" : ""}`}
+      >
+        {answer}
+      </p>
+      {phase === "hidden" && (
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => handleImmediate(false)}
+            className={failButtonClassName}
+          >
+            I don't know
+          </button>
+          <button
+            onClick={() => setPhase("unsure")}
+            className={neutralButtonClassName}
+          >
+            Not sure, show me
+          </button>
+          <button
+            onClick={() => handleImmediate(true)}
+            className={succeedButtonClassName}
+          >
+            I know
+          </button>
+        </div>
+      )}
+      {phase === "unsure" && (
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => handleUnsureGrade(false)}
+            className={failButtonClassName}
+          >
+            I didn't know it
+          </button>
+          <button
+            onClick={() => handleUnsureGrade(true)}
+            className={succeedButtonClassName}
+          >
+            I knew it
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function IngestPractice({
   quizPairs,
   optionPool,
@@ -144,18 +229,21 @@ function IngestPractice({
     onAnswer(pairIndex, isCorrect);
   }
 
-  function handleCorrect(isFirstTry: boolean) {
-    handleAnswer(isFirstTry);
-    if (isFirstTry) setCorrectCount((c) => c + 1);
-    setAdvanceDelay(500);
+  // Records the word's final result and moves on after `delayMs`.
+  function finishWord(isCorrect: boolean, delayMs: number) {
+    handleAnswer(isCorrect);
+    if (isCorrect) setCorrectCount((c) => c + 1);
+    setAdvanceDelay(delayMs);
     setAdvancePending(true);
   }
 
+  function handleCorrect(isFirstTry: boolean) {
+    finishWord(isFirstTry, 500);
+  }
+
   function handleGiveUp() {
-    handleAnswer(false);
     // Linger longer so the revealed correct answer can be read.
-    setAdvanceDelay(1500);
-    setAdvancePending(true);
+    finishWord(false, 1500);
   }
 
   useEffect(() => {
@@ -194,16 +282,20 @@ function IngestPractice({
         <p className="text-3xl font-bold text-gray-900">{prompt}</p>
       </div>
 
-      <MultipleChoiceStep
-        key={step}
-        correct={correct}
-        optionPool={optionPool}
-        onWrongAttempt={() => handleAnswer(false)}
-        field={reversed ? "estonian" : "english"}
-        optionCount={optionCountForDifficulty(difficulty)}
-        onCorrect={handleCorrect}
-        onGiveUp={handleGiveUp}
-      />
+      {difficulty === "flashcard" ? (
+        <FlashcardStep key={step} answer={correct} onResult={finishWord} />
+      ) : (
+        <MultipleChoiceStep
+          key={step}
+          correct={correct}
+          optionPool={optionPool}
+          onWrongAttempt={() => handleAnswer(false)}
+          field={reversed ? "estonian" : "english"}
+          optionCount={optionCountForDifficulty(difficulty)}
+          onCorrect={handleCorrect}
+          onGiveUp={handleGiveUp}
+        />
+      )}
     </div>
   );
 }

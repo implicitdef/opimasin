@@ -3,24 +3,36 @@ import type { VocabPair } from "./types";
 
 export const MAX_QUIZ_OPTIONS = 10;
 
-export const DIFFICULTIES = ["very-easy", "easy", "medium", "hard"] as const;
+export const DIFFICULTIES = [
+  "very-easy",
+  "easy",
+  "medium",
+  "hard",
+  "flashcard",
+] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
+// Flashcard mode shows no options: the user reveals the answer and grades
+// themselves.
+export type MultipleChoiceDifficulty = Exclude<Difficulty, "flashcard">;
 
 export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
   "very-easy": "Very easy (4 options)",
   easy: "Easy (6 options)",
   medium: "Medium (10 options)",
   hard: "Hard (20 options)",
+  flashcard: "Flashcard (no options, self-graded)",
 };
 
-const DIFFICULTY_OPTION_COUNTS: Record<Difficulty, number> = {
+const DIFFICULTY_OPTION_COUNTS: Record<MultipleChoiceDifficulty, number> = {
   "very-easy": 4,
   easy: 6,
   medium: MAX_QUIZ_OPTIONS,
   hard: 20,
 };
 
-export function optionCountForDifficulty(difficulty: Difficulty): number {
+export function optionCountForDifficulty(
+  difficulty: MultipleChoiceDifficulty,
+): number {
   return DIFFICULTY_OPTION_COUNTS[difficulty];
 }
 
