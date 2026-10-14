@@ -1,4 +1,4 @@
-import { Check, Copy, RefreshCcw } from "lucide-react";
+import { RefreshCcw } from "lucide-react";
 import { useState } from "react";
 import ApiKeyModal from "./ApiKeyModal";
 import { useApiKey } from "./CredentialsContext";
@@ -7,7 +7,8 @@ import PageMain from "./PageMain";
 import YellowDescription from "./YellowDescription";
 import type { VocabPair } from "./types";
 import { extractVocabFromChunk } from "./vocab-extract-api";
-import { chunkText, dedupeVocabPairs, toTsv } from "./vocabExtract";
+import { chunkText, dedupeVocabPairs } from "./vocabExtract";
+import VocabTsvOutput from "./VocabTsvOutput";
 
 type ExtractState =
   | { status: "idle" }
@@ -30,8 +31,6 @@ function VocabExtractPage() {
   const [pendingExtract, setPendingExtract] = useState<
     ((key: string) => void) | null
   >(null);
-  const [copied, setCopied] = useState(false);
-  const [copyError, setCopyError] = useState(false);
 
   function withApiKey(action: (key: string) => void) {
     if (apiKey) {
@@ -86,17 +85,6 @@ function VocabExtractPage() {
     e.preventDefault();
     if (!text.trim() || state.status === "extracting") return;
     withApiKey((key) => runExtract(text, key));
-  }
-
-  async function handleCopy(tsv: string) {
-    try {
-      await navigator.clipboard.writeText(tsv);
-      setCopyError(false);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      setCopyError(true);
-    }
   }
 
   return (
@@ -177,33 +165,10 @@ function VocabExtractPage() {
             No non-obvious vocabulary found in this text.
           </p>
         ) : (
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-gray-700">
-                Extracted vocabulary ({state.pairs.length} words)
-              </h2>
-              <button
-                onClick={() => handleCopy(toTsv(state.pairs))}
-                className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                {copied ? (
-                  <Check size={14} className="text-green-600" />
-                ) : (
-                  <Copy size={14} />
-                )}
-                {copied ? "Copied!" : "Copy"}
-              </button>
-            </div>
-            <pre className="border-2 border-black rounded-md bg-slate-50 p-3 text-sm font-mono overflow-x-auto">
-              {toTsv(state.pairs)}
-            </pre>
-            {copyError && (
-              <p className="text-xs text-gray-500">
-                Couldn't copy automatically — select the text above and copy
-                manually.
-              </p>
-            )}
-          </div>
+          <VocabTsvOutput
+            title={`Extracted vocabulary (${state.pairs.length} words)`}
+            pairs={state.pairs}
+          />
         ))}
 
       {pendingExtract && (

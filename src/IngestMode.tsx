@@ -15,6 +15,7 @@ import SettingsBox from "./SettingsBox";
 import YellowDescription from "./YellowDescription";
 import type { VocabList, VocabPair } from "./types";
 import { usePersistedState } from "./usePersistedState";
+import VocabListModal from "./VocabListModal";
 import {
   DIFFICULTIES,
   DIFFICULTY_LABELS,
@@ -254,6 +255,7 @@ function IngestListCard({
   onCopyMissed: () => void;
 }) {
   const [copied, setCopied] = useState(false);
+  const [viewing, setViewing] = useState(false);
   useEffect(() => {
     if (!copied) return;
     const timer = setTimeout(() => setCopied(false), 2000);
@@ -372,19 +374,34 @@ function IngestListCard({
           )}
         </div>
       )}
-      {failedCount > 0 && (
+      <div className="flex items-center gap-4 flex-wrap">
         <button
-          onClick={() => {
-            onCopyMissed();
-            setCopied(true);
-          }}
-          disabled={copied}
-          className="self-start text-xs text-gray-500 hover:text-gray-800 underline transition-colors disabled:no-underline disabled:cursor-default"
+          onClick={() => setViewing(true)}
+          className="text-xs text-gray-500 hover:text-gray-800 underline transition-colors"
         >
-          {copied
-            ? "✓ Copied into a new list at the top"
-            : `Copy the ${failedCount} missed word${failedCount === 1 ? "" : "s"} into a separate list`}
+          View the words
         </button>
+        {failedCount > 0 && (
+          <button
+            onClick={() => {
+              onCopyMissed();
+              setCopied(true);
+            }}
+            disabled={copied}
+            className="text-xs text-gray-500 hover:text-gray-800 underline transition-colors disabled:no-underline disabled:cursor-default"
+          >
+            {copied
+              ? "✓ Copied into a new list at the top"
+              : `Copy the ${failedCount} missed word${failedCount === 1 ? "" : "s"} into a separate list`}
+          </button>
+        )}
+      </div>
+      {viewing && (
+        <VocabListModal
+          name={list.name}
+          pairs={list.pairs}
+          onClose={() => setViewing(false)}
+        />
       )}
     </div>
   );
