@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  BookText,
   Database,
   FileSearch,
   Languages,
@@ -14,7 +15,8 @@ export type FeatureId =
   | "video"
   | "vocabExtract"
   | "baserow"
-  | "alias";
+  | "alias"
+  | "stories";
 
 export interface Feature {
   id: FeatureId;
@@ -133,6 +135,19 @@ export const FEATURES: Feature[] = [
       "Describe a random word from your Baserow vocabulary table, in Estonian, until the AI guesses it. Optionally, your messages must be correct before they count.",
     icon: MessageCircleQuestion,
     isActive: (path) => path.startsWith("/alias"),
+    ownerOnly: true,
+  },
+  {
+    id: "stories",
+    welcomeCardLabel: "Short stories",
+    navLabel: "Stories",
+    headerTitle: "Short stories",
+    inTextLabel: "Short stories",
+    to: "/stories",
+    description:
+      "Generates several short A2 stories in Estonian at once, to read together as one longer text.",
+    icon: BookText,
+    isActive: (path) => path.startsWith("/stories"),
     ownerOnly: true,
   },
 ];

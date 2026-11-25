@@ -17,6 +17,7 @@ import BaserowVocabPage from "./BaserowVocabPage";
 import AliasProvider from "./AliasContext";
 import AliasListPage from "./AliasListPage";
 import AliasGamePage from "./AliasGamePage";
+import StoriesPage from "./StoriesPage";
 import { countPageview } from "./goatcounter";
 
 const rootRoute = createRootRoute({ component: RootLayout });
@@ -75,6 +76,12 @@ const baserowVocabRoute = createRoute({
   component: BaserowVocabPage,
 });
 
+const storiesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/stories",
+  component: StoriesPage,
+});
+
 const aliasLayoutRoute = createRoute({
   id: "aliasLayout",
   getParentRoute: () => rootRoute,
@@ -105,6 +112,7 @@ const routeTree = rootRoute.addChildren([
   vocabExtractRoute,
   baserowVocabRoute,
   aliasLayoutRoute.addChildren([aliasListRoute, aliasGameRoute]),
+  storiesRoute,
 ]);
 
 export const router = createRouter({
