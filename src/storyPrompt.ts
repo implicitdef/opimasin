@@ -45,7 +45,9 @@ export const STORY_IDEAS: string[] = [
   "A greedy character gets everything, and the story simply stops there.",
   "A lesson is learned, but by the wrong person.",
   "A kind character is cheated again and again, and kindness doesn't pay, but they stay kind.",
+  "It involves a sailor and/or a mermaid",
 ];
+
 
 export const MIN_IDEAS_PER_STORY = 1;
 export const MAX_IDEAS_PER_STORY = 3;
