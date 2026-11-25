@@ -48,6 +48,22 @@ export const STORY_IDEAS: string[] = [
   "It involves a sailor and/or a mermaid",
 ];
 
+/**
+ * System prompt for the review pass: each generated story is sent back to the
+ * model to fix small inconsistencies.
+ */
+export const STORY_REVIEW_PROMPT = `You are proofreading a short Estonian story.
+
+Check the story for:
+- Confusing or unclear events or sentences
+- Logical inconsistencies: contradictions, cause and effect that doesn't follow
+- Estonian grammar mistakes (cases, agreement, verb forms, word order).
+
+If the story contains dark, sad, cruel or unexpected events and endings, that's intentional. Do not soften or "fix" them.
+
+Edit budget: you may change a few words, and at most one or two lines in total. Keep its tone and length. If nothing is wrong, return the story exactly as it is.
+
+First list your changes briefly (empty list if none), then give the full corrected story: plain prose only, no title, no English, no notes.`;
 
 export const MIN_IDEAS_PER_STORY = 1;
 export const MAX_IDEAS_PER_STORY = 3;
