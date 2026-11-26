@@ -7,7 +7,7 @@
  */
 
 export const STORY_PROMPT = `Generate a small story in Estonian, to help me practice. Vocabulary MUST be A2 level. Length: around 120 words.
-Subject : a fun story, of unexpected twists and turns. I love evocative ideas and settings. I love simple stories, but I also love that things happens that you may not expect in a child story (like a child gets eaten and the villain wins...)
+Subject : a fun story, of unexpected twists and turns. I love evocative ideas and settings. I love simple stories, but I also love that things happens that you may not expect in a child story. The events may be dark, sad, shocking or cruel. They may also be cheerful. Or a mix. Anything is possible.
 
 Plain prose only: no title, no English, no notes.`;
 
@@ -41,7 +41,10 @@ export const STORY_IDEAS: string[] = [
   "There are hints that something horrible happened.",
   "A knight who is terrified of everything but never turns back.",
   "It involves a grave-digger.",
-  "The story involves a famous historical figure (Napoleon, Genghis Khan, Cleopatra) in a small, strange moment.",
+  "The story involves a famous historical figure (Napoleon, Genghis Khan, Cleopatra) in a strange moment.",
+  "It involves a famous historical ruler somewhat in his actual context (e.g. Charlemagne as ruler of part of Europe)",
+  "It involves the cruelty of vikings",
+  "It involves the subtleties of some law(s)",
   "A cozy domestic story slowly turns out to be about something sinister.",
   "The reward for the quest is something nobody wanted.",
   "A cheerful festival with one custom that's slightly off, then clearly wrong.",
@@ -54,6 +57,38 @@ export const STORY_IDEAS: string[] = [
   "A lesson is learned, but by the wrong person.",
   "A kind character is cheated again and again, and kindness doesn't pay, but they stay kind.",
   "It involves a sailor and/or a mermaid",
+  "Someone smokes a lot of cigars or cigarettes",
+  "The protagonist is a tough man with a lot of issues (bad temper, or hates people, or hates himself, or killed people, ...), but he does the right thing in the story",
+  "The hero is ready to die",
+  "A woman in danger needs the hero's help",
+  "A dangerous woman uses her looks to trick men",
+  "Cops and politicians are bad",
+  "Rich bad guys cannot be stopped by the law",
+  "The protagonist goals are a folly, because there's a 'system' bigger than him that can't be fought",
+  "Some villains look scary on the outside",
+  "The story is narrated in first person by the protagonist",
+  "The city is a bad place",
+  "Some character keeps fighting after many injuries",
+  "The hero follows his own rules",
+  "Friends and lovers betray each other",
+  "The hero is blamed for a crime he did not do",
+  "The love story ends in sadness",
+  "The hero knows he will lose, but he fights anyway",
+  "The story involves a giant or giants",
+  "The story involves dinosaurs",
+  "There is some physical hurts, wounds, and pain",
+  "The story is concerned with the laws of inheritance of a throne",
+  "The story involves a superhero and a supervillain",
+  "A king or ruler ends with an even bigger kingdom or domain",
+  "the story is inspired by a story from the One Thousand and One Nights",
+  "A villain displays some sad side of him, and the reader might think the protagonist will be empathetic, but the protagonist is unmoved and still acts as if the villain was purely evil",
+  "Someone makes a heartfelt declaration of love",
+  "A man gets an order or command to kill someone who happens to be a loved one (his wife, kid, ...)",
+  "A thief gets his hand cut off as punishment",
+  "Someone gets cut into several pieces, or is cooked and eaten",
+  'A character tries to go through an ordeal, he is just trying to maintain his starting situation, but as eventually "survives" the ordeal/conflict, he is suddenly rewarded beyond his wildest dreams',
+  "A character's personnality repeatedly gets him into tough situations or causes harm around him",
+  "The story tells the protagonist's life, from childhood to its death",
 ];
 
 /**
