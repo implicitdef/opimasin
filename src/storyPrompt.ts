@@ -89,6 +89,7 @@ export const STORY_IDEAS: string[] = [
   'A character tries to go through an ordeal, he is just trying to maintain his starting situation, but as eventually "survives" the ordeal/conflict, he is suddenly rewarded beyond his wildest dreams',
   "A character's personnality repeatedly gets him into tough situations or causes harm around him",
   "The story tells the protagonist's life, from childhood to its death",
+  "The story is set in a house or appartment and mentions various rooms or furniture or items",
 ];
 
 /**
