@@ -108,7 +108,7 @@ Edit budget: you may change a few words, and at most one or two lines in total. 
 
 (if the story contains dark, sad, cruel or unexpected events and endings, that's intentional. Do not soften or "fix" them)
 
-First list your changes briefly (empty list if none), then give the full corrected story: plain prose only, no title, no English, no notes.`;
+Return the full corrected story (or the unchanged story if nothing is wrong): plain prose only, no title, no English, no notes.`;
 
 export const MIN_IDEAS_PER_STORY = 1;
 export const MAX_IDEAS_PER_STORY = 3;

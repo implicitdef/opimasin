@@ -12,13 +12,21 @@ function formatIdeas(ideas: string[]): string {
     : `Use these random ideas :\n${ideas.map((i) => `- ${i}`).join("\n")}`;
 }
 
+export interface GeneratedStory {
+  /** The story as first written. */
+  draft: string;
+  /** The story after the review pass. */
+  final: string;
+}
+
 /** Writes a story from the given ideas, then runs it through the review pass. */
 export async function generateStory(
   ideas: string[],
   apiKey: string,
-): Promise<string> {
+): Promise<GeneratedStory> {
   const draft = await writeStory(ideas, apiKey);
-  return reviewStory(draft, apiKey);
+  const final = await reviewStory(draft, apiKey);
+  return { draft, final };
 }
 
 async function writeStory(ideas: string[], apiKey: string): Promise<string> {
@@ -64,20 +72,15 @@ async function reviewStory(story: string, apiKey: string): Promise<string> {
         schema: {
           type: "object",
           properties: {
-            changes: { type: "array", items: { type: "string" } },
             story: { type: "string" },
           },
-          required: ["changes", "story"],
+          required: ["story"],
           additionalProperties: false,
         },
       },
     },
   });
 
-  const raw = JSON.parse(responseText(response)) as {
-    changes: string[];
-    story: string;
-  };
-  console.debug("Story review changes:", raw.changes);
+  const raw = JSON.parse(responseText(response)) as { story: string };
   return raw.story;
 }

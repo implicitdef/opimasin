@@ -1,17 +1,20 @@
-import { Check, Copy, RefreshCcw } from "lucide-react";
+import { Check, Copy, GitCompare, RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import ApiKeyModal from "./ApiKeyModal";
 import { useApiKey } from "./CredentialsContext";
 import PageMain from "./PageMain";
 import YellowDescription from "./YellowDescription";
 import { generateStory } from "./story-api";
+import { countEdits, diffStory } from "./storyDiff";
 import { countWords, joinStories, pickIdeasForBatch } from "./stories";
 import { STORY_IDEAS } from "./storyPrompt";
 import { usePersistedState } from "./usePersistedState";
 
 type StorySlot =
   | { status: "loading" }
-  | { status: "done"; story: string }
+  // `story` is the reviewed (final) version. `draft` is the version from
+  // before the review; it's missing on slots saved before it was kept.
+  | { status: "done"; draft?: string; story: string }
   | { status: "error"; message: string };
 
 const COUNT_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -28,6 +31,7 @@ function StoriesPage() {
   >(null);
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
+  const [showReview, setShowReview] = useState(false);
 
   // Calls still in flight when the page was left are lost: drop their slots.
   useEffect(() => {
@@ -36,6 +40,7 @@ function StoriesPage() {
 
   const isLoading = slots.some((s) => s.status === "loading");
   const stories = slots.flatMap((s) => (s.status === "done" ? [s.story] : []));
+  const hasDrafts = slots.some((s) => s.status === "done" && s.draft);
   const allText = joinStories(stories);
 
   function withApiKey(action: (key: string) => void) {
@@ -58,7 +63,8 @@ function StoriesPage() {
     setSlots(ideaSets.map(() => ({ status: "loading" })));
     ideaSets.forEach((ideas, i) => {
       generateStory(ideas, key).then(
-        (story) => updateSlot(i, { status: "done", story }),
+        ({ draft, final }) =>
+          updateSlot(i, { status: "done", draft, story: final }),
         (err: unknown) =>
           updateSlot(i, {
             status: "error",
@@ -123,17 +129,32 @@ function StoriesPage() {
             {stories.length} {stories.length === 1 ? "story" : "stories"},{" "}
             {countWords(stories.join(" "))} words
           </h2>
-          <button
-            onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            {copied ? (
-              <Check size={14} className="text-green-600" />
-            ) : (
-              <Copy size={14} />
+          <div className="flex items-center gap-2">
+            {hasDrafts && (
+              <button
+                onClick={() => setShowReview((v) => !v)}
+                className={`flex items-center gap-1.5 rounded-lg border px-3 py-1 text-xs font-semibold transition-colors ${
+                  showReview
+                    ? "border-blue-700 bg-blue-50 text-blue-800"
+                    : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                <GitCompare size={14} />
+                {showReview ? "Hide review changes" : "Show review changes"}
+              </button>
             )}
-            {copied ? "Copied!" : "Copy all"}
-          </button>
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              {copied ? (
+                <Check size={14} className="text-green-600" />
+              ) : (
+                <Copy size={14} />
+              )}
+              {copied ? "Copied!" : "Copy all"}
+            </button>
+          </div>
         </div>
       )}
       {copyError && (
@@ -155,11 +176,14 @@ function StoriesPage() {
                 Writing story {i + 1}…
               </span>
             )}
-            {slot.status === "done" && (
-              <p className="whitespace-pre-wrap leading-relaxed">
-                {slot.story}
-              </p>
-            )}
+            {slot.status === "done" &&
+              (!showReview || slot.draft === undefined ? (
+                <p className="whitespace-pre-wrap leading-relaxed">
+                  {slot.story}
+                </p>
+              ) : (
+                <StoryComparison draft={slot.draft} final={slot.story} />
+              ))}
             {slot.status === "error" && (
               <p className="text-red-600">{slot.message}</p>
             )}
@@ -174,6 +198,54 @@ function StoriesPage() {
         />
       )}
     </PageMain>
+  );
+}
+
+function StoryComparison({ draft, final }: { draft: string; final: string }) {
+  const parts = diffStory(draft, final);
+  const edits = countEdits(parts);
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="text-xs font-semibold text-gray-500">
+        {edits === 0
+          ? "No changes from review"
+          : `${edits} ${edits === 1 ? "edit" : "edits"} from review`}
+      </p>
+      <div className="grid gap-3 md:grid-cols-2">
+        <div>
+          <h3 className="mb-1 text-xs font-semibold text-gray-700">
+            First version
+          </h3>
+          <p className="whitespace-pre-wrap leading-relaxed">
+            {parts.map((part, i) =>
+              part.added ? null : part.removed ? (
+                <span key={i} className="bg-red-100 text-red-800 line-through">
+                  {part.value}
+                </span>
+              ) : (
+                <span key={i}>{part.value}</span>
+              ),
+            )}
+          </p>
+        </div>
+        <div>
+          <h3 className="mb-1 text-xs font-semibold text-gray-700">
+            Reviewed version
+          </h3>
+          <p className="whitespace-pre-wrap leading-relaxed">
+            {parts.map((part, i) =>
+              part.removed ? null : part.added ? (
+                <span key={i} className="bg-green-100 text-green-800">
+                  {part.value}
+                </span>
+              ) : (
+                <span key={i}>{part.value}</span>
+              ),
+            )}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
