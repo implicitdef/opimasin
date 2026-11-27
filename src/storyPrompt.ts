@@ -6,7 +6,7 @@
  * within one batch until the list runs out).
  */
 
-export const STORY_PROMPT = `Generate a small story in Estonian, to help me practice. Vocabulary MUST be A2 level. Length: around 120 words.
+export const STORY_PROMPT = `Generate a small story in Estonian, to help me practice. Vocabulary MUST be A2 level. Length: around 50 to 200 words.
 Subject : a fun story, of unexpected twists and turns. I love evocative ideas and settings. I love simple stories, but I also love that things happens that you may not expect in a child story. The events may be dark, sad, shocking or cruel. They may also be cheerful. Or a mix. Anything is possible.
 
 Plain prose only: no title, no English, no notes.`;
